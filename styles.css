@@ -194,6 +194,9 @@ a { color: var(--primary); }
 .note.warn { background: var(--warn-bg); } .note.warn::before { background: var(--warn); }
 .note.err { background: var(--err-bg); } .note.err::before { background: var(--err); }
 .note b { font-weight: 600; }
+.note.rev { background: var(--warn-bg); } .note.rev::before { background: var(--gold-line); }
+.rv { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 6px; border-radius: 50%; background: #f2c230; color: #3a2a00; font-size: 12px; font-weight: 800; line-height: 1; vertical-align: middle; cursor: help; }
+.res-title h1 .rv { width: 22px; height: 22px; font-size: 14px; vertical-align: 3px; }
 
 .src-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .src-table th, .src-table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }

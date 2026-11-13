@@ -10,6 +10,8 @@
        Pharmacopsychiatry 2026; 59: 166–295. Tabell 5 (TRR, alert level,
        anbefalingsnivå), tabell 6 (DRC-faktorer) og tabell 7 (MPR).
      • Analytisk variasjon (CV): OUS kontroller lav/medium/høy (QCL/QCM/QCH).
+     • review: kjente uklarheter som er under faglig gjennomgang. Vises med
+       gult utropstegn i appen.
      • doseTab: «Serumkonsentrasjoner ved ulike doser» fra OUS OneNote
        (Reis et al. 2009 for antidepressiva, Jönsson et al. 2019 for
        antipsykotika): døgndoser (mg), antall prøver og 10-persentil/median/
@@ -188,6 +190,7 @@ window.TDM_DATA = {
     },
     {
       id: "mianserin", no: "Mianserin", en: "Mianserin", group: "ad",
+      review: [{ no: "Toksisk grense i OUS-kilden (>500 nmol/L) ligger innenfor referanseområdet (150–900 nmol/L) og vises ikke før den er avklart.", en: "The toxic limit in the OUS source (>500 nmol/L) lies within the reference range (150–900 nmol/L) and is not shown until clarified." }],
       analytes: [
         { key: "MIA", no: "Mianserin", en: "Mianserin", mw: 264.37, qcm: 100 },
         { key: "DMIA", no: "Desmetylmianserin", en: "N-desmethylmianserin", mw: 250.34, qcm: 100, metabolite: true }
@@ -238,6 +241,7 @@ window.TDM_DATA = {
     },
     {
       id: "paroksetin", no: "Paroksetin", en: "Paroxetine", group: "ad",
+      review: [{ no: "Toksisk grense i OUS-kilden (>350 nmol/L) ligger innenfor referanseområdet (40–400 nmol/L) og vises ikke før den er avklart.", en: "The toxic limit in the OUS source (>350 nmol/L) lies within the reference range (40–400 nmol/L) and is not shown until clarified." }],
       analytes: [{ key: "PAR", no: "Paroksetin", en: "Paroxetine", mw: 329.37, qcm: 40 }],
       measure: "PAR",
       ous: { ref: [40, 400], dose: [20, 60], window: [12, 24], ringe: 800, fatal: 3600 },
@@ -431,6 +435,7 @@ window.TDM_DATA = {
     },
     {
       id: "klozapin", no: "Klozapin", en: "Clozapine", group: "ap",
+      review: [{ no: "Toksisk grense i OUS-kilden (>1800 nmol/L) ligger innenfor referanseområdet (300–2500 nmol/L) og vises ikke før den er avklart.", en: "The toxic limit in the OUS source (>1800 nmol/L) lies within the reference range (300–2500 nmol/L) and is not shown until clarified." }],
       analytes: [
         { key: "KLZ", no: "Klozapin", en: "Clozapine", mw: 326.82, qcm: 300 },
         { key: "NKLZ", no: "Desmetylklozapin", en: "N-desmethylclozapine", mw: 312.80, qcm: 100, metabolite: true, optional: true }
@@ -450,6 +455,7 @@ window.TDM_DATA = {
     },
     {
       id: "kvetiapin", no: "Kvetiapin", en: "Quetiapine", group: "ap",
+      review: [{ no: "90-persentilen ved 50 mg er oppgitt som 756 nmol/L i kilden (trolig skrivefeil). 76 nmol/L er brukt foreløpig.", en: "The 90th percentile at 50 mg is given as 756 nmol/L in the source (probably a typo). 76 nmol/L is used provisionally." }],
       analytes: [
         { key: "KVE", no: "Kvetiapin", en: "Quetiapine", mw: 383.51, qcm: 150 },
         { key: "NKVE", no: "Desalkylkvetiapin", en: "N-desalkylquetiapine", mw: 295.4, qcm: 150, metabolite: true, optional: true }
@@ -466,7 +472,7 @@ window.TDM_DATA = {
         xr: { of: "KVE", label: { no: "Depottablett (XR, om kvelden)", en: "Extended release (XR, evening)" }, pts: [[10, 1.074, 0.933, 1.264]] }
       },
       doseTab: { src: "Jonsson2019", doses: [50, 100, 200, 300, 400, 600, 800, 1000], tabs: [
-        { of: "KVE", n: [252, 474, 633, 718, 888, 832, 495, 110], p10: [16, 27, 36, 59, 60, 90, 89, 157], med: [46, 85, 140, 205, 217, 328, 335, 430], p90: [756, 151, 272, 499, 573, 693, 1053, 952] }
+        { of: "KVE", n: [252, 474, 633, 718, 888, 832, 495, 110], p10: [16, 27, 36, 59, 60, 90, 89, 157], med: [46, 85, 140, 205, 217, 328, 335, 430], p90: [76, 151, 272, 499, 573, 693, 1053, 952] }
       ] },
       t12: 7, tmax: 1.5
     },

@@ -34,6 +34,7 @@
       req: "Fyll inn feltene som er markert.",
       reqDrug: "Velg legemiddel.",
       timeOrder: "Prøven må være tatt etter siste dose.",
+      reviewTitle: "Under faglig gjennomgang", reviewLbl: "Under gjennomgang",
       doseOus: "Vis forventet område for dosen (OUS-data)", doseShort: "Forventet ved dose (OUS)",
       inDose: "Vanlig nivå for dosen {dose}: 10.–90. persentil {r}, median {m}{n}.",
       belowDose: "Lavere enn 90 % av målingene ved dosen {dose} (10.–90. persentil {r}, median {m}{n}). Mulige årsaker: ufullstendig etterlevelse, rask omsetning eller tidspunkt.",
@@ -138,6 +139,7 @@
       req: "Please fill in the highlighted fields.",
       reqDrug: "Choose a drug.",
       timeOrder: "The sample must be taken after the last dose.",
+      reviewTitle: "Under professional review", reviewLbl: "Under review",
       doseOus: "Show expected range for the dose (OUS data)", doseShort: "Expected at dose (OUS)",
       inDose: "Typical level for the dose {dose}: 10th–90th percentile {r}, median {m}{n}.",
       belowDose: "Lower than 90% of measurements at the dose {dose} (10th–90th percentile {r}, median {m}{n}). Possible causes: partial adherence, fast metabolism or timing.",
@@ -391,6 +393,11 @@
       return null;
     }).filter(Boolean);
   }
+  function reviewBadge(d) {
+    if (!d.review || !d.review.length) return "";
+    var tt = t("reviewTitle") + ": " + d.review.map(nm).join(" ");
+    return '<span class="rv" title="' + esc(tt) + '" aria-label="' + esc(tt) + '">!</span>';
+  }
   function windowOk(h, w, tol) { return h >= w[0] - tol && h <= w[1] + tol; }
   function winTxt(w) { return w[0] === w[1] ? num(w[0]) + " t" : num(w[0]) + "–" + num(w[1]) + " t"; }
   function winTxtL(w) { var u = S.lang === "en" ? " h" : " t"; return w[0] === w[1] ? num(w[0]) + u : num(w[0]) + "–" + num(w[1]) + u; }
@@ -406,6 +413,7 @@
     r.daily = s.form === "depot" ? (s.dose > 0 && s.interval > 0 ? s.dose / s.interval : null) : (s.dose > 0 ? s.dose * (s.perDay || 1) : null);
     r.timingOus = true; r.timingAgnp = true;
     var N = r.notes;
+    (d.review || []).forEach(function (x) { N.push(["rev", t("reviewTitle") + ": " + nm(x)]); });
 
     // Tidspunkt
     if (s.form === "depot") {
@@ -628,7 +636,7 @@
           .sort(function (a, b) { return dname(a).localeCompare(dname(b), S.lang); });
         if (!ds.length) return;
         h += '<li class="grp" role="presentation">' + t("groups")[g] + "</li>";
-        ds.forEach(function (x) { items.push(x.id); h += '<li class="opt-item" role="option" data-id="' + x.id + '" id="opt-' + x.id + '"><span>' + esc(dname(x)) + "</span>" + (S.lang === "nb" && x.en !== x.no ? "<small>" + esc(x.en) + "</small>" : "") + "</li>"; });
+        ds.forEach(function (x) { items.push(x.id); h += '<li class="opt-item" role="option" data-id="' + x.id + '" id="opt-' + x.id + '"><span>' + esc(dname(x)) + reviewBadge(x) + "</span>" + (S.lang === "nb" && x.en !== x.no ? "<small>" + esc(x.en) + "</small>" : "") + "</li>"; });
       });
       list.innerHTML = h || '<li class="empty">' + t("noMatch") + "</li>";
       list.hidden = false; inp.setAttribute("aria-expanded", "true"); active = -1;
@@ -715,7 +723,7 @@
     var R0 = evaluate(d, S.samples[0]), R1 = S.compare ? evaluate(d, S.samples[1]) : null;
     var q = d.measure;
     var sub = qtyLabel(d, q) + " · " + (S.samples[0].form === "depot" ? num(R0.hours / 24, 1) + " " + t("daysAfterInj") : num(R0.hours, 1) + " " + t("hoursAfter"));
-    var h = '<div class="res-title"><div><h1>' + esc(dname(d)) + '</h1><div class="sub">' + esc(sub) + '</div></div><button type="button" class="btn btn-ghost" data-act="edit">← ' + t("edit") + "</button></div>";
+    var h = '<div class="res-title"><div><h1>' + esc(dname(d)) + reviewBadge(d) + '</h1><div class="sub">' + esc(sub) + '</div></div><button type="button" class="btn btn-ghost" data-act="edit">← ' + t("edit") + "</button></div>";
 
     // Tidslinje
     h += '<section class="card"><div class="card-head"><h2>' + t("timeline") + " <span class=\"tag\">" + esc(unitLabel(d)) + "</span></h2>" + unitSeg() + "</div>";
@@ -736,8 +744,8 @@
   }
   function toggle(k, label) { return '<label class="check"><input type="checkbox" data-show="' + k + '"' + (S.show[k] ? " checked" : "") + "><span>" + label + "</span></label>"; }
   function notesHtml(N) {
-    var order = { err: 0, warn: 1, info: 2, ok: 3 };
-    return '<ul class="notes">' + N.slice().sort(function (a, b) { return order[a[0]] - order[b[0]]; }).map(function (n) { return '<li class="note ' + n[0] + '">' + esc(n[1]) + "</li>"; }).join("") + "</ul>";
+    var order = { rev: -1, err: 0, warn: 1, info: 2, ok: 3 };
+    return '<ul class="notes">' + N.slice().sort(function (a, b) { return order[a[0]] - order[b[0]]; }).map(function (n) { return '<li class="note ' + n[0] + '">' + (n[0] === "rev" ? '<span class="rv" style="margin:0 2px 0 0">!</span>' : "") + "<span>" + esc(n[1]) + "</span></li>"; }).join("") + "</ul>";
   }
   function kvBlock(d, R, smp) {
     if (R.value == null) return "";
@@ -797,6 +805,7 @@
     h += row("ous", t("sWin"), winTxtL(O.window || [12, 24]) + (O.windowTol != null ? " (± " + num(O.windowTol, 1) + ")" : ""));
     if (O.dose) h += row("ous", t("sDose"), num(O.dose[0]) + "–" + num(O.dose[1]) + " " + doseUnit(d));
     if (O.doseSpc) h += row(null, t("sDoseSpc"), num(O.doseSpc[0]) + "–" + num(O.doseSpc[1]) + " " + doseUnit(d));
+    (d.review || []).forEach(function (x) { h += row(null, t("reviewLbl"), nm(x)); });
     if (d.doseTab) h += row("ous", t("sDoseTab"), fill(t("sDoseTabV"), { a: num(d.doseTab.doses[0]), b: num(d.doseTab.doses[d.doseTab.doses.length - 1]), src: d.doseTab.src === "Reis2009" ? "Reis et al. 2009" : "Jönsson et al. 2019" }));
     if (O.ringe != null) h += row("ous", t("sRinge"), cfmt(d, q, ousToN(d, O.ringe)));
     if (O.tox != null) h += row("ous", t("sTox"), cfmt(d, q, ousToN(d, O.tox)));
