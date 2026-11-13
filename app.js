@@ -34,6 +34,16 @@
       req: "Fyll inn feltene som er markert.",
       reqDrug: "Velg legemiddel.",
       timeOrder: "Prøven må være tatt etter siste dose.",
+      doseOus: "Vis forventet område for dosen (OUS-data)", doseShort: "Forventet ved dose (OUS)",
+      inDose: "Vanlig nivå for dosen {dose}: 10.–90. persentil {r}, median {m}{n}.",
+      belowDose: "Lavere enn 90 % av målingene ved dosen {dose} (10.–90. persentil {r}, median {m}{n}). Mulige årsaker: ufullstendig etterlevelse, rask omsetning eller tidspunkt.",
+      aboveDose: "Høyere enn 90 % av målingene ved dosen {dose} (10.–90. persentil {r}, median {m}{n}). Mulige årsaker: langsom omsetning (genetikk, hemmere), nedsatt nyre-/leverfunksjon eller tidspunkt.",
+      doseOf: "Gjelder {x}.", doseInterp: "interpolert mellom {a} og {b}", doseN: ", n = {n}",
+      doseNaRange: "Forventet område for dosen (OUS-data) finnes bare for døgndoser {a}–{b}.",
+      doseNaDepot: "Forventet område for dosen (OUS-data) gjelder tablettbehandling og vises ikke for depot.",
+      doseTipBody: "10.–90. persentil av målte konsentrasjoner ved denne døgndosen i rutine-TDM (OUS OneNote; {src}). Strek = median.",
+      cmpDoseOus: "Forventet område for dosene (OUS-data): ny dose {a}, forrige dose {b}.",
+      sDoseTab: "Konsentrasjoner ved ulike doser", sDoseTabV: "Tabell for døgndoser {a}–{b} mg ({src})",
       agnpTrr: "Vis AGNP terapeutisk referanseområde", agnpDrr: "Vis AGNP forventet område for dosen", agnpAlert: "Vis AGNP varslingsgrense",
       agnpTrrShort: "AGNP terapeutisk område", agnpDrrShort: "AGNP forventet for dose", agnpAlertShort: "AGNP varslingsgrense",
       timeline: "Konsentrasjon", interpretation: "Vurdering", comparison: "Sammenlikning av prøvene", sources: "Verdier og kilder for",
@@ -128,6 +138,16 @@
       req: "Please fill in the highlighted fields.",
       reqDrug: "Choose a drug.",
       timeOrder: "The sample must be taken after the last dose.",
+      doseOus: "Show expected range for the dose (OUS data)", doseShort: "Expected at dose (OUS)",
+      inDose: "Typical level for the dose {dose}: 10th–90th percentile {r}, median {m}{n}.",
+      belowDose: "Lower than 90% of measurements at the dose {dose} (10th–90th percentile {r}, median {m}{n}). Possible causes: partial adherence, fast metabolism or timing.",
+      aboveDose: "Higher than 90% of measurements at the dose {dose} (10th–90th percentile {r}, median {m}{n}). Possible causes: slow metabolism (genetics, inhibitors), impaired renal/hepatic function or timing.",
+      doseOf: "Applies to {x}.", doseInterp: "interpolated between {a} and {b}", doseN: ", n = {n}",
+      doseNaRange: "The expected range for the dose (OUS data) is only available for daily doses {a}–{b}.",
+      doseNaDepot: "The expected range for the dose (OUS data) applies to oral treatment and is not shown for depot.",
+      doseTipBody: "10th–90th percentile of measured concentrations at this daily dose in routine TDM (OUS OneNote; {src}). Line = median.",
+      cmpDoseOus: "Expected ranges for the doses (OUS data): new dose {a}, previous dose {b}.",
+      sDoseTab: "Concentrations at different doses", sDoseTabV: "Table for daily doses {a}–{b} mg ({src})",
       agnpTrr: "Show AGNP therapeutic reference range", agnpDrr: "Show AGNP expected range for the dose", agnpAlert: "Show AGNP alert level",
       agnpTrrShort: "AGNP therapeutic range", agnpDrrShort: "AGNP expected for dose", agnpAlertShort: "AGNP alert level",
       timeline: "Concentration", interpretation: "Assessment", comparison: "Comparison of samples", sources: "Values and sources for",
@@ -217,7 +237,7 @@
   var S = {
     lang: prefs.lang || ((navigator.language || "nb").slice(0, 2) === "en" ? "en" : "nb"),
     units: prefs.units || "mol",
-    show: prefs.show || { trr: false, drr: false, alert: false },
+    show: Object.assign({ dose: true, trr: false, drr: false, alert: false }, prefs.show || {}),
     view: "form",
     drugId: null,
     compare: false,
@@ -355,6 +375,22 @@
     var conv = function (x) { return set.unit === "umolPerMmol" ? x * 1000 : agnpToN(d, set.of, x); };
     return { of: set.of, mean: conv(sum[0]), lo: conv(sum[1]), hi: conv(sum[2]), extrap: extrap };
   }
+  // 10.–90. persentil ved gitt døgndose (lineær interpolasjon mellom tabelldoser)
+  function doseInterval(d, daily) {
+    var DT = d.doseTab, ds = DT.doses, last = ds.length - 1;
+    if (daily < ds[0] - 1e-9 || daily > ds[last] + 1e-9) return null;
+    var tabs = DT.tabs.filter(function (x) { return x.of === d.measure; });
+    if (!tabs.length) tabs = DT.tabs;
+    return tabs.map(function (tb) {
+      for (var k = 0; k <= last; k++) if (Math.abs(ds[k] - daily) < 1e-9)
+        return { of: tb.of, lo: ousToN(d, tb.p10[k]), med: ousToN(d, tb.med[k]), hi: ousToN(d, tb.p90[k]), n: tb.n[k] };
+      for (k = 0; k < last; k++) if (daily > ds[k] && daily < ds[k + 1]) {
+        var f = (daily - ds[k]) / (ds[k + 1] - ds[k]), L2 = function (a) { return ousToN(d, a[k] + f * (a[k + 1] - a[k])); };
+        return { of: tb.of, lo: L2(tb.p10), med: L2(tb.med), hi: L2(tb.p90), interp: fill(t("doseInterp"), { a: num(ds[k]) + " mg", b: num(ds[k + 1]) + " mg" }) };
+      }
+      return null;
+    }).filter(Boolean);
+  }
   function windowOk(h, w, tol) { return h >= w[0] - tol && h <= w[1] + tol; }
   function winTxt(w) { return w[0] === w[1] ? num(w[0]) + " t" : num(w[0]) + "–" + num(w[1]) + " t"; }
   function winTxtL(w) { var u = S.lang === "en" ? " h" : " t"; return w[0] === w[1] ? num(w[0]) + u : num(w[0]) + "–" + num(w[1]) + u; }
@@ -454,6 +490,24 @@
       var alq = d.agnp.of, alv = qtyValue(d, s, alq), al = agnpToN(d, alq, d.agnp.alert);
       r.alert = { of: alq, v: al };
       if (alv != null && alv >= al) N.push(["err", fill(t("overAlert"), { v: cfmt(d, alq, al) })]);
+    }
+    // OUS forventet for dose (konsentrasjoner ved ulike doser)
+    if (S.show.dose && d.doseTab) {
+      var DT = d.doseTab;
+      if (s.form === "depot") N.push(["info", t("doseNaDepot")]);
+      else if (r.daily != null) {
+        var iv2 = doseInterval(d, r.daily);
+        if (!iv2) N.push(["info", fill(t("doseNaRange"), { a: num(DT.doses[0]), b: num(DT.doses[DT.doses.length - 1]) + " " + doseUnit(d) })]);
+        else {
+          r.dose = iv2;
+          iv2.forEach(function (x) {
+            var xv = qtyValue(d, s, x.of); if (xv == null) return;
+            var o = { dose: x.interp ? dfmt(d, r.daily) + " (" + x.interp + ")" : dfmt(d, r.daily), r: rfmt(d, x.of, x.lo, x.hi), m: cfmt(d, x.of, x.med), n: x.n ? fill(t("doseN"), { n: x.n }) : "" };
+            var c4 = xv < x.lo ? "belowDose" : xv > x.hi ? "aboveDose" : "inDose";
+            N.push([c4 === "inDose" ? (r.timingOus ? "ok" : "info") : "warn", fill(t(c4), o) + (x.of !== q ? " " + fill(t("doseOf"), { x: qtyLabel(d, x.of) }) : "")]);
+          });
+        }
+      }
     }
     // AGNP forventet for dose
     if (S.show.drr) {
@@ -667,7 +721,7 @@
     h += '<section class="card"><div class="card-head"><h2>' + t("timeline") + " <span class=\"tag\">" + esc(unitLabel(d)) + "</span></h2>" + unitSeg() + "</div>";
     h += '<div class="timeline-wrap" id="tl"></div><div class="legend" id="legend"></div>';
     h += '<div class="toggles">' +
-      toggle("trr", t("agnpTrr")) + toggle("drr", t("agnpDrr")) + toggle("alert", t("agnpAlert")) + "</div></section>";
+      toggle("dose", t("doseOus")) + toggle("trr", t("agnpTrr")) + toggle("drr", t("agnpDrr")) + toggle("alert", t("agnpAlert")) + "</div></section>";
 
     // Sammenlikning
     if (R1) h += compareCard(d, R0, R1);
@@ -720,9 +774,15 @@
         notes.push([Math.abs(pct) > rcv ? "info" : "ok", fill(t(Math.abs(pct) > rcv ? "cmpRcv" : "cmpRcvNo"), { v: num(rcv, 0) })]);
       }
       var dd = function (s, R) { return s.form === "depot" ? dfmt(d, s.dose) + " / " + num(s.interval) + " " + t("dayUnit") : dfmt(d, R.daily) + (S.lang === "en" ? "/day" : "/døgn"); };
+      var hasDoseNote = false;
+      if (R0.dose && R1.dose && R0.dose.length && R1.dose.length) { hasDoseNote = true;
+        var dz = function (R) { return R.dose.map(function (x) { return rfmt(d, x.of, x.lo, x.hi) + (x.of !== q ? " (" + qtyLabel(d, x.of) + ")" : ""); }).join(", "); };
+        notes.push(["info", fill(t("cmpDoseOus"), { a: dd(s0, R0) + ": " + dz(R0), b: dd(s1, R1) + ": " + dz(R1) })]);
+      }
+      if (S.show.drr && R0.drr && R1.drr && !R0.drr.why && !R1.drr.why) { hasDoseNote = true; }
       if (S.show.drr && R0.drr && R1.drr && !R0.drr.why && !R1.drr.why)
         notes.push(["info", fill(t("cmpDiffDrr"), { a: dd(s0, R0) + ": " + rfmt(d, R0.drr.of, R0.drr.lo, R0.drr.hi), b: dd(s1, R1) + ": " + rfmt(d, R1.drr.of, R1.drr.lo, R1.drr.hi) })]);
-      else notes.push(["info", fill(t("cmpDosesOus"), { a: dd(s0, R0), b: dd(s1, R1) })]);
+      else if (!hasDoseNote) notes.push(["info", fill(t("cmpDosesOus"), { a: dd(s0, R0), b: dd(s1, R1) })]);
     }
     h += "</div>";
     if (notes.length) h += '<div style="margin-top:12px">' + notesHtml(notes) + "</div>";
@@ -737,6 +797,7 @@
     h += row("ous", t("sWin"), winTxtL(O.window || [12, 24]) + (O.windowTol != null ? " (± " + num(O.windowTol, 1) + ")" : ""));
     if (O.dose) h += row("ous", t("sDose"), num(O.dose[0]) + "–" + num(O.dose[1]) + " " + doseUnit(d));
     if (O.doseSpc) h += row(null, t("sDoseSpc"), num(O.doseSpc[0]) + "–" + num(O.doseSpc[1]) + " " + doseUnit(d));
+    if (d.doseTab) h += row("ous", t("sDoseTab"), fill(t("sDoseTabV"), { a: num(d.doseTab.doses[0]), b: num(d.doseTab.doses[d.doseTab.doses.length - 1]), src: d.doseTab.src === "Reis2009" ? "Reis et al. 2009" : "Jönsson et al. 2019" }));
     if (O.ringe != null) h += row("ous", t("sRinge"), cfmt(d, q, ousToN(d, O.ringe)));
     if (O.tox != null) h += row("ous", t("sTox"), cfmt(d, q, ousToN(d, O.tox)));
     if (O.fatal != null) h += row("ous", t("sFatal"), cfmt(d, q, ousToN(d, O.fatal)));
@@ -778,6 +839,7 @@
       cands.push(D(R.hi || R.value) * 1.12);
       if (R.trr && R.trr.of === q) cands.push(D(R.trr.hi) * 1.2);
       if (R.drr && !R.drr.why && R.drr.of === q) cands.push(D(R.drr.hi) * 1.1);
+      if (R.dose) R.dose.forEach(function (x) { if (x.of === q) cands.push(D(x.hi) * 1.1); });
       if (R.alert && R.alert.of === q) cands.push(D(R.alert.v) * 1.15);
     });
     var vmax = Math.max.apply(null, cands.filter(function (x) { return x > 0 && isFinite(x); }));
@@ -789,6 +851,7 @@
     // Baner
     var lanes = [];
     var Rs = [R0, R1].filter(Boolean);
+    Rs.forEach(function (R, i) { (R.dose || []).forEach(function (x) { lanes.push({ type: "dose", R: R, i: i, x: x }); }); });
     if (S.show.trr && d.agnp) lanes.push({ type: "trr" });
     if (S.show.drr) Rs.forEach(function (R, i) { if (R.drr && !R.drr.why) lanes.push({ type: "drr", R: R, i: i }); });
     var labelRows = 2, rowH = 16, laneH = 14, laneLbl = 14, trackH = 30;
@@ -825,7 +888,17 @@
     // Baner (AGNP)
     lanes.forEach(function (ln, k) {
       var y = laneY(k);
-      if (ln.type === "trr") {
+      if (ln.type === "dose") {
+        var x = ln.x, sm = S.samples[ln.i], daily = sm.dose * (sm.perDay || 1);
+        var tipO = "<b>" + t("doseShort") + "</b>" + esc(dfmt(d, daily)) + (x.interp ? " (" + esc(x.interp) + ")" : "") + (x.of !== q ? " – " + esc(qtyLabel(d, x.of)) : "") +
+          "<br>" + esc(rfmt(d, x.of, x.lo, x.hi)) + ", median " + esc(cfmt(d, x.of, x.med)) + (x.n ? " (n = " + x.n + ")" : "") +
+          '<br><span class="muted">' + esc(fill(t("doseTipBody"), { src: d.doseTab.src === "Reis2009" ? "Reis et al. 2009" : "Jönsson et al. 2019" })) + "</span>";
+        s += '<rect x="' + XN(x.lo, x.of) + '" y="' + y + '" width="' + Math.max(2, XN(x.hi, x.of) - XN(x.lo, x.of)) + '" height="' + laneH + '" rx="5" style="fill:var(--dose-soft);stroke:var(--dose);stroke-width:1.5"' + tip(tipO) + "/>";
+        var mx = XN(x.med, x.of);
+        s += '<line x1="' + mx + '" x2="' + mx + '" y1="' + (y + 2) + '" y2="' + (y + laneH - 2) + '" style="stroke:var(--dose);stroke-width:2;pointer-events:none"/>';
+        s += laneLabel(t("doseShort") + " " + dfmt(d, daily) + (x.of !== q ? " – " + qtyLabel(d, x.of) : "") + (Rs.length > 1 ? " (" + (ln.i === 0 ? t("legNew") : t("legPrev")).toLowerCase() + ")" : ""), y, "var(--dose)");
+        if (x.of !== q) { var v3 = qtyValue(d, sm, x.of); if (v3 != null) s += smallMarker(XN(v3, x.of), y, ln.i); }
+      } else if (ln.type === "trr") {
         var A = d.agnp, aq = A.of, lo = agnpToN(d, aq, A.trr[0]), hi = agnpToN(d, aq, A.trr[1]);
         var bad = !R0.timingAgnp;
         var tipH = "<b>" + t("agnpTrrShort") + (aq !== q ? " (" + esc(qtyLabel(d, aq)) + ")" : "") + "</b>" + esc(rfmt(d, aq, lo, hi)) +
@@ -882,6 +955,7 @@
     if (ringe != null && (tox == null || ringe < tox)) lg += '<span><i style="background:var(--zone-ringe)"></i>' + t("legRinge") + "</span>";
     if (tox != null) lg += '<span><i style="background:var(--zone-tox)"></i>' + t("legTox") + "</span>";
     if (R0.cv != null) lg += '<span><i style="background:var(--marker-new);opacity:.3"></i>' + t("legCv") + "</span>";
+    if (lanes.some(function (l) { return l.type === "dose"; })) lg += '<span><i style="background:var(--dose-soft);border:1.5px solid var(--dose)"></i>' + t("doseShort") + "</span>";
     if (lanes.some(function (l) { return l.type === "trr"; })) lg += '<span><i style="background:var(--agnp-soft);border:1.5px solid var(--agnp)"></i>' + t("agnpTrrShort") + "</span>";
     if (lanes.some(function (l) { return l.type === "drr"; })) lg += '<span><i style="background:var(--gold-soft);border:1.5px solid var(--gold-line)"></i>' + t("agnpDrrShort") + "</span>";
     if (S.show.alert && d.agnp && d.agnp.of === q) lg += '<span><i style="background:none;border-left:2px dashed var(--zone-tox);width:8px;border-radius:0"></i>' + t("agnpAlertShort") + "</span>";

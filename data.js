@@ -10,6 +10,10 @@
        Pharmacopsychiatry 2026; 59: 166–295. Tabell 5 (TRR, alert level,
        anbefalingsnivå), tabell 6 (DRC-faktorer) og tabell 7 (MPR).
      • Analytisk variasjon (CV): OUS kontroller lav/medium/høy (QCL/QCM/QCH).
+     • doseTab: «Serumkonsentrasjoner ved ulike doser» fra OUS OneNote
+       (Reis et al. 2009 for antidepressiva, Jönsson et al. 2019 for
+       antipsykotika): døgndoser (mg), antall prøver og 10-persentil/median/
+       90-persentil (nmol/L) for summen, morstoffet og/eller metabolitten.
 
    Enheter:
      • Konsentrasjoner fra OUS er i nmol/L (litium mmol/L, lamotrigin µmol/L).
@@ -44,6 +48,11 @@ window.TDM_DATA = {
                 en: "Based on a meta-analysis; the concentration–effect and toxicity relationship is well established." } },
       mpr: { pair: ["NOR", "AMI"], range: [0.2, 1.8] },
       drc: { tablet: { of: "sum", pts: [[24, 0.775, 0.557, 2.008], [12, 1.055, 0.762, 2.684]] } },
+      doseTab: { src: "Reis2009", doses: [25, 30, 50, 75, 100, 125, 150, 200], tabs: [
+        { of: "sum", n: [26, 22, 64, 55, 83, 17, 62, 11], p10: [51, 46, 123, 117, 180, 301, 174, 526], med: [118, 113, 260, 317, 412, 503, 594, 919], p90: [402, 245, 908, 832, 782, 1024, 1203, 1101] },
+        { of: "AMI", n: [26, 22, 64, 55, 83, 17, 62, 11], p10: [27, 30, 50, 66, 92, 125, 88, 219], med: [77, 63, 148, 150, 214, 187, 300, 478], p90: [159, 185, 502, 398, 401, 532, 856, 762] },
+        { of: "NOR", n: [26, 22, 64, 55, 83, 17, 62, 11], p10: [18, 14, 33, 47, 68, 159, 82, 188], med: [44, 37, 104, 154, 181, 219, 264, 330], p90: [127, 107, 396, 394, 429, 433, 569, 441] }
+      ] },
       t12: 25, tmax: 4
     },
     {
@@ -71,6 +80,9 @@ window.TDM_DATA = {
         note: { no: "Godt etablert sammenheng konsentrasjon–effekt; nedre grense tilsvarer 80 % SERT-okkupans (validert med ROC).",
                 en: "Well-established concentration–effect relationship; lower limit corresponds to 80% SERT occupancy (ROC-validated)." } },
       drc: { tablet: { of: "CIT", pts: [[24, 1.217, 1.019, 1.511]] } },
+      doseTab: { src: "Reis2009", doses: [10, 20, 30, 40, 50, 60, 80], tabs: [
+        { of: "CIT", n: [202, 2330, 573, 1671, 117, 467, 41], p10: [29, 57, 83, 107, 124, 153, 111], med: [70, 119, 174, 216, 256, 297, 250], p90: [185, 253, 339, 414, 425, 534, 583] }
+      ] },
       t12: 36, tmax: 3
     },
     {
@@ -112,6 +124,9 @@ window.TDM_DATA = {
                 en: "Based on a systematic review with meta-analysis; lower limit supported by 80% SERT occupancy. Upper limit is a therapeutic maximum, not a tolerability limit." } },
       mpr: null,
       drc: { tablet: { of: "ESC", pts: [[24, 1.385, 0.918, 2.821]] } },
+      doseTab: { src: "Reis2009", doses: [5, 10, 15, 20, 25, 30, 40], tabs: [
+        { of: "ESC", n: [146, 1470, 372, 883, 37, 107, 30], p10: [11, 15, 22, 27, 31, 34, 28], med: [26, 35, 47, 63, 73, 74, 101], p90: [75, 85, 111, 143, 132, 181, 229] }
+      ] },
       t12: 30, tmax: 4
     },
     {
@@ -128,6 +143,11 @@ window.TDM_DATA = {
                 en: "No concentration–response relationship found. Range is mean ± SD from a PK study at 20 mg/d." } },
       mpr: { pair: ["NFLU", "FLU"], range: [0.7, 1.9] },
       drc: null, drcNote: { no: "AGNP har ikke beregnet doserelatert område pga. ikke-lineær kinetikk.", en: "AGNP did not calculate a dose-related range due to non-linear kinetics." },
+      doseTab: { src: "Reis2009", doses: [10, 20, 30, 40, 60, 80], tabs: [
+        { of: "sum", n: [13, 333, 39, 239, 136, 19], p10: [198, 270, 779, 553, 1018, 1036], med: [408, 624, 1014, 1175, 1770, 1824], p90: [888, 1216, 1474, 1871, 2722, 3225] },
+        { of: "FLU", n: [13, 333, 39, 239, 136, 19], p10: [42, 88, 284, 218, 518, 526], med: [169, 238, 481, 557, 907, 1033], p90: [439, 577, 781, 1050, 1587, 1909] },
+        { of: "NFLU", n: [13, 333, 39, 239, 136, 19], p10: [169, 148, 348, 278, 424, 480], med: [253, 367, 514, 572, 802, 791], p90: [461, 676, 845, 967, 1341, 1399] }
+      ] },
       t12: 144, tmax: 7
     },
     {
@@ -140,6 +160,9 @@ window.TDM_DATA = {
         note: { no: "Basert på konsentrasjon–respons-studie (ROC, nedre terskel 61 ng/mL); øvre grense fra 75-persentil hos respondere.",
                 en: "Based on a concentration–response study (ROC, lower threshold 61 ng/mL); upper limit from the 75th percentile in responders." } },
       drc: { tablet: { of: "FLV", pts: [[24, 0.695, 0.504, 1.12], [20, 0.8, 0.58, 1.289], [12, 1.056, 0.766, 1.703]] } },
+      doseTab: { src: "Reis2009", doses: [50, 100, 150, 200, 300], tabs: [
+        { of: "FLV", n: [31, 37, 22, 29, 22], p10: [22, 44, 73, 90, 252], med: [50, 190, 256, 363, 577], p90: [146, 465, 738, 778, 1304] }
+      ] },
       t12: 20, tmax: 5
     },
     {
@@ -156,6 +179,11 @@ window.TDM_DATA = {
                 en: "Concentration–effect well established in depression; ADRs more likely above the upper limit. Alert level is expert opinion." } },
       mpr: { pair: ["DKLO", "KLO"], range: [0.8, 2.6] },
       drc: { tablet: { of: "sum", label: { no: "Vanlige tabletter (IR)", en: "Immediate release" }, pts: [[24, 1.417, 0.927, 3.236], [20, 1.544, 1.011, 3.506], [12, 1.828, 1.201, 4.106]] } },
+      doseTab: { src: "Reis2009", doses: [25, 50, 75, 100, 125, 150, 175, 200], tabs: [
+        { of: "sum", n: [10, 36, 41, 59, 39, 115, 12, 30], p10: [38, 104, 233, 267, 435, 389, 610, 444], med: [97, 298, 354, 542, 753, 833, 768, 927], p90: [353, 772, 1210, 1196, 1573, 1520, 1329, 2094] },
+        { of: "KLO", n: [10, 36, 41, 59, 39, 115, 12, 30], p10: [28, 47, 71, 102, 109, 118, 189, 136], med: [38, 121, 165, 236, 303, 284, 255, 248], p90: [202, 345, 476, 672, 731, 700, 515, 952] },
+        { of: "DKLO", n: [10, 36, 41, 59, 39, 115, 12, 30], p10: [10, 52, 77, 112, 219, 185, 387, 253], med: [38, 157, 205, 303, 437, 486, 539, 618], p90: [202, 420, 849, 661, 789, 1008, 887, 1076] }
+      ] },
       t12: 32, tmax: 4
     },
     {
@@ -172,18 +200,25 @@ window.TDM_DATA = {
                 en: "Poorer response above 70 ng/mL in one clinical study. Applies to mianserin alone." } },
       mpr: { pair: ["DMIA", "MIA"], range: [0.5, 0.8] },
       drc: { tablet: { of: "MIA", pts: [[24, 0.28, 0.184, 0.58], [20, 0.33, 0.217, 0.683], [12, 0.457, 0.301, 0.949]] } },
+      doseTab: { src: "Reis2009", doses: [10, 20, 30, 60, 90, 120, 150], tabs: [
+        { of: "MIA", n: [65, 54, 316, 265, 140, 96, 32], p10: [19, 19, 40, 74, 112, 144, 180], med: [41, 72, 91, 191, 235, 196, 284], p90: [102, 194, 238, 382, 455, 513, 509] },
+        { of: "DMIA", n: [65, 54, 316, 265, 140, 96, 32], p10: [9, 12, 19, 36, 51, 91, 102], med: [24, 33, 52, 120, 173, 241, 195], p90: [56, 121, 141, 281, 466, 609, 589] }
+      ] },
       t12: 33, tmax: 3
     },
     {
       id: "mirtazapin", no: "Mirtazapin", en: "Mirtazapine", group: "ad",
       analytes: [{ key: "MIR", no: "Mirtazapin", en: "Mirtazapine", mw: 265.36, qcm: 100 }],
       measure: "MIR",
-      ous: { ref: [50, 350], dose: [15, 60], window: [12, 24], ringe: 700, fatal: 7500 },
+      ous: { ref: [50, 350], dose: [15, 60], window: [12, 24], ringe: 700, tox: 600, fatal: 7500 },
       agnp: { trr: [30, 80], of: "MIR", time: [12, 12], ss: [4, 8], alert: 160, level: 2,
         basis: ["conc"],
         note: { no: "Høyere konsentrasjoner hos respondere (terskel 30 ng/mL). Øvre grense er et terapeutisk maksimum.",
                 en: "Higher concentrations in responders (threshold 30 ng/mL). Upper limit is a therapeutic maximum." } },
       drc: { tablet: { of: "MIR", pts: [[24, 1.01, 0.888, 1.17], [12, 1.331, 1.171, 1.542]] } },
+      doseTab: { src: "Reis2009", doses: [15, 30, 45, 60, 90], tabs: [
+        { of: "MIR", n: [145, 661, 329, 245, 21], p10: [19, 42, 75, 82, 93], med: [51, 101, 150, 192, 275], p90: [121, 232, 309, 356, 366] }
+      ] },
       t12: 30, tmax: 1.5
     },
     {
@@ -196,6 +231,9 @@ window.TDM_DATA = {
         note: { no: "Sammenheng mellom konsentrasjon og klinisk effekt/bivirkninger er godt etablert.",
                 en: "The concentration–effect/ADR relationship is well established." } },
       drc: { tablet: { of: "NOR", pts: [[24, 0.804, 0.578, 1.319], [20, 0.881, 0.634, 1.446], [14, 1.012, 0.728, 1.659], [12, 1.059, 0.761, 1.736]] } },
+      doseTab: { src: "Reis2009", doses: [25, 30, 50, 75, 100, 125, 150], tabs: [
+        { of: "NOR", n: [6, 9, 45, 42, 50, 14, 25], p10: [32, 61, 93, 166, 96, 279, 250], med: [108, 140, 179, 360, 358, 392, 533], p90: [291, 211, 358, 799, 834, 711, 1072] }
+      ] },
       t12: 26, tmax: 7
     },
     {
@@ -208,6 +246,9 @@ window.TDM_DATA = {
         note: { no: "Prospektiv kohort (n = 921) fant høy sannsynlighet for respons og god toleranse ved 32–80 ng/mL.",
                 en: "Prospective cohort (n = 921) found high probability of response and good tolerability at 32–80 ng/mL." } },
       drc: { tablet: { of: "PAR", pts: [[24, 0.856, 0.621, 1.377]] } },
+      doseTab: { src: "Reis2009", doses: [10, 20, 30, 40, 50, 60, 80], tabs: [
+        { of: "PAR", n: [45, 704, 209, 499, 37, 139, 18], p10: [9, 20, 44, 64, 50, 141, 88], med: [28, 79, 140, 192, 177, 375, 366], p90: [156, 215, 381, 489, 417, 845, 1085] }
+      ] },
       t12: 21, tmax: 6
     },
     {
@@ -220,6 +261,9 @@ window.TDM_DATA = {
         note: { no: "Nedre grense fra PK/PD-studier ved effektive doser og 80 % SERT-okkupans; over 50 ng/mL kan effekten avta og bivirkningsrisikoen øke.",
                 en: "Lower limit from PK/PD data at effective doses and 80% SERT occupancy; above 50 ng/mL efficacy may decrease and ADR risk increase." } },
       drc: { tablet: { of: "SER", pts: [[24, 0.452, 0.326, 0.736], [12, 0.622, 0.449, 1.014]] } },
+      doseTab: { src: "Reis2009", doses: [25, 50, 75, 100, 125, 150, 200, 300], tabs: [
+        { of: "SER", n: [50, 984, 136, 1071, 28, 403, 281, 11], p10: [9, 13, 25, 26, 48, 39, 47, 96], med: [23, 40, 69, 73, 112, 112, 125, 238], p90: [54, 99, 146, 166, 212, 244, 261, 406] }
+      ] },
       t12: 26, tmax: 6
     },
     {
@@ -232,6 +276,9 @@ window.TDM_DATA = {
         note: { no: "God toleranse opp til 500 ng/mL hos PM; i tråd med data fra klinisk praksis (Reis et al. 2009). Varslingsgrense er ekspertvurdering.",
                 en: "Good tolerability up to 500 ng/mL in PMs; consistent with real-world data (Reis et al. 2009). Alert level is expert opinion." } },
       drc: { tablet: { of: "TRI", pts: [[24, 0.442, 0.341, 0.628], [20, 0.496, 0.383, 0.705], [12, 0.625, 0.482, 0.889]] } },
+      doseTab: { src: "Reis2009", doses: [25, 50, 75, 100, 125, 150, 200], tabs: [
+        { of: "TRI", n: [12, 25, 28, 20, 12, 32, 10], p10: [41, 41, 54, 74, 114, 96, 114], med: [88, 151, 177, 191, 302, 348, 430], p90: [446, 411, 645, 738, 1111, 933, 697] }
+      ] },
       t12: 23, tmax: 3
     },
     {
@@ -251,6 +298,11 @@ window.TDM_DATA = {
         xr: { of: "sum", label: { no: "Depotkapsel (XR, 1 gang daglig)", en: "Extended release (XR, once daily)" }, pts: [[24, 1.12, 0.862, 1.75]] },
         tablet: { of: "sum", label: { no: "Vanlige tabletter (IR)", en: "Immediate release" }, pts: [[24, 1.135, 0.923, 1.478], [20, 1.496, 1.215, 1.956], [12, 2.663, 2.149, 3.523]] }
       },
+      doseTab: { src: "Reis2009", doses: [37.5, 75, 112.5, 150, 225, 300, 375, 450], tabs: [
+        { of: "sum", n: [18, 256, 42, 716, 391, 252, 34, 22], p10: [188, 245, 292, 382, 494, 674, 862, 712], med: [345, 487, 827, 787, 1193, 1407, 1561, 1292], p90: [1024, 1200, 1489, 1590, 2277, 2635, 3605, 2689] },
+        { of: "VEN", n: [18, 256, 42, 716, 391, 252, 34, 22], p10: [17, 23, 49, 46, 83, 104, 118, 103], med: [127, 99, 167, 179, 327, 418, 669, 334], p90: [594, 503, 1011, 677, 1017, 1391, 1760, 1419] },
+        { of: "ODV", n: [18, 256, 42, 716, 391, 252, 34, 22], p10: [48, 160, 131, 221, 313, 381, 407, 447], med: [256, 373, 509, 535, 711, 858, 1078, 766], p90: [718, 822, 1069, 1085, 1480, 1645, 1993, 1160] }
+      ] },
       t12: 11, tmax: 6
     },
     {
@@ -271,12 +323,15 @@ window.TDM_DATA = {
       id: "amisulprid", no: "Amisulprid", en: "Amisulpride", group: "ap",
       analytes: [{ key: "AMS", no: "Amisulprid", en: "Amisulpride", mw: 369.48, qcm: 75 }],
       measure: "AMS",
-      ous: { ref: [100, 1500], dose: [50, 1200], window: [12, 24] },
+      ous: { ref: [100, 1500], dose: [50, 1200], window: [12, 24], ringe: 1800, tox: 1700, fatal: 25100 },
       agnp: { trr: [200, 550], of: "AMS", time: [24, 24], ss: [3, 3], alert: 1100, level: 1,
         basis: ["conc", "pet"],
         note: { no: "Basert på konsentrasjon–effekt-studier; PET støtter inntil 550 ng/mL for optimal effekt, med økende bivirkninger over dette.",
                 en: "Based on concentration–effect studies; PET supports up to 550 ng/mL for optimal efficacy, with more ADRs above." } },
       drc: { tablet: { of: "AMS", pts: [[24, 0.547, 0.342, 0.751], [20, 0.593, 0.431, 0.947], [14, 0.84, 0.611, 1.342], [10, 1.058, 0.77, 1.691]] } },
+      doseTab: { src: "Jonsson2019", doses: [50, 100, 200, 400, 600, 800, 1000, 1200], tabs: [
+        { of: "AMS", n: [12, 23, 75, 123, 64, 89, 15, 15], p10: [23, 24, 96, 206, 378, 382, 569, 660], med: [64, 159, 281, 443, 705, 764, 1417, 1570], p90: [361, 649, 874, 1124, 1755, 1828, 3311, 6343] }
+      ] },
       t12: 12, tmax: 4
     },
     {
@@ -294,6 +349,10 @@ window.TDM_DATA = {
       mpr: { pair: ["DARI", "ARI"], range: [0.3, 0.5] },
       drc: { tablet: { of: "sum", pts: [[24, 17.725, 13.348, 26.422], [12, 19.412, 14.626, 28.91]] } },
       depot: [{ id: "maintena", name: "Abilify Maintena", interval: 28, t12d: 47 }],
+      doseTab: { src: "Jonsson2019", doses: [5, 10, 15, 20, 25, 30], tabs: [
+        { of: "ARI", n: [128, 418, 568, 207, 32, 215], p10: [73, 134, 206, 247, 406, 371], med: [166, 285, 415, 527, 685, 792], p90: [365, 613, 764, 973, 1235, 1392] },
+        { of: "DARI", n: [128, 418, 568, 207, 32, 215], p10: [42, 48, 68, 84, 91, 110], med: [54, 95, 136, 165, 191, 235], p90: [72, 175, 231, 297, 306, 396] }
+      ] },
       t12: 75, tmax: 4
     },
     {
@@ -319,6 +378,9 @@ window.TDM_DATA = {
                 en: "Based on PK studies (incl. Jönsson et al. 2019); 60% D2 occupancy at 1 ng/mL. Refers to the cis isomer." } },
       drc: { tablet: { of: "FLX", pts: [[24, 1.205, 0.874, 1.938], [20, 1.305, 0.947, 2.099], [12, 1.532, 1.112, 2.464]] } },
       depot: [{ id: "fluanxol", name: "Fluanxol depot", interval: 14, t12d: 17 }],
+      doseTab: { src: "Jonsson2019", doses: [1, 2, 3, 4, 5, 6, 10, 20], tabs: [
+        { of: "FLX", n: [33, 33, 35, 21, 17, 13, 14, 7], p10: [0.9, 1.3, 2.1, 1.1, 1.9, 2.2, 0.4, 0.9], med: [1.8, 2.8, 4.4, 5.4, 12.2, 6.5, 12.1, 18.3], p90: [3.4, 9.7, 7.4, 11.5, 31, 26.1, 35.7, 69.3] }
+      ] },
       t12: 35, tmax: 4
     },
     {
@@ -332,6 +394,9 @@ window.TDM_DATA = {
                 en: "Based on clinical and PET studies. No separate target range for the LAI formulation." } },
       drc: { tablet: { of: "HAL", pts: [[24, 0.339, 0.234, 0.611], [20, 0.381, 0.263, 0.686], [12, 0.48, 0.332, 0.866]] } },
       depot: [{ id: "haldol", name: "Haldol depot", interval: 28, t12d: 21 }],
+      doseTab: { src: "Jonsson2019", doses: [2, 4, 6, 8, 10, 12, 16, 20], tabs: [
+        { of: "HAL", n: [50, 61, 24, 43, 20, 17, 20, 13], p10: [1, 2.5, 3.9, 3.5, 7.3, 7.9, 15.5, 10.7], med: [2.8, 5.7, 7.9, 11.2, 14.7, 14.4, 21.5, 27], p90: [8.2, 11.4, 26.3, 28.2, 59.4, 30.2, 56.9, 75.8] }
+      ] },
       t12: 20, tmax: 4
     },
     {
@@ -371,13 +436,16 @@ window.TDM_DATA = {
         { key: "NKLZ", no: "Desmetylklozapin", en: "N-desmethylclozapine", mw: 312.80, qcm: 100, metabolite: true, optional: true }
       ],
       measure: "KLZ",
-      ous: { ref: [300, 2500], dose: [100, 900], window: [12, 24], ringe: 3000 },
+      ous: { ref: [300, 2500], dose: [100, 900], window: [12, 24], ringe: 3000, fatal: 3600 },
       agnp: { trr: [350, 600], of: "KLZ", time: [12, 12], ss: [3, 4], alert: 1000, level: 1, revised: true,
         basis: ["conc"],
         note: { no: "Nivåer over 350 ng/mL er mest optimale for respons. Over 1000 ng/mL økt risiko for kramper.",
                 en: "Levels above 350 ng/mL are most optimal for response. Above 1000 ng/mL increased seizure risk." } },
       mpr: { pair: ["NKLZ", "KLZ"], range: [0.45, 0.79] },
       drc: { tablet: { of: "KLZ", pts: [[24, 0.986, 0.715, 1.587], [12, 1.978, 1.435, 3.183]] } },
+      doseTab: { src: "Jonsson2019", doses: [100, 200, 300, 400, 500, 600, 700], tabs: [
+        { of: "KLZ", n: [51, 128, 178, 158, 90, 87, 31], p10: [155, 368, 380, 547, 599, 545, 1000], med: [549, 833, 1026, 1243, 1373, 1437, 1391], p90: [1276, 1644, 2060, 2333, 2547, 3275, 3108] }
+      ] },
       t12: 12, tmax: 2.5
     },
     {
@@ -397,6 +465,9 @@ window.TDM_DATA = {
         tablet: { of: "KVE", label: { no: "Vanlige tabletter (IR)", en: "Immediate release" }, pts: [[24, 0.138, 0.104, 0.203], [10, 0.551, 0.417, 0.81]] },
         xr: { of: "KVE", label: { no: "Depottablett (XR, om kvelden)", en: "Extended release (XR, evening)" }, pts: [[10, 1.074, 0.933, 1.264]] }
       },
+      doseTab: { src: "Jonsson2019", doses: [50, 100, 200, 300, 400, 600, 800, 1000], tabs: [
+        { of: "KVE", n: [252, 474, 633, 718, 888, 832, 495, 110], p10: [16, 27, 36, 59, 60, 90, 89, 157], med: [46, 85, 140, 205, 217, 328, 335, 430], p90: [756, 151, 272, 499, 573, 693, 1053, 952] }
+      ] },
       t12: 7, tmax: 1.5
     },
     {
@@ -435,6 +506,9 @@ window.TDM_DATA = {
                 en: "Based on systematic reviews with meta-analysis; response threshold 20 ng/mL, therapeutic maximum at 40 ng/mL. Valid 12–15 h after once-daily intake." } },
       drc: { tablet: { of: "OLA", label: { no: "Gjelder ikke-røykere", en: "Valid for non-smokers" }, pts: [[12, 1.642, 1.122, 3.063]] } },
       depot: [{ id: "zypadhera", name: "Zypadhera", interval: 28, t12d: 30 }],
+      doseTab: { src: "Jonsson2019", doses: [2.5, 5, 7.5, 10, 15, 20, 25, 30], tabs: [
+        { of: "OLA", n: [245, 1194, 675, 3190, 1853, 2139, 229, 409], p10: [10, 18, 28, 31, 48, 56, 60, 77], med: [21, 39, 59, 70, 98, 119, 137, 166], p90: [40, 83, 113, 141, 197, 241, 290, 336] }
+      ] },
       t12: 33, tmax: 6
     },
     {
@@ -465,6 +539,9 @@ window.TDM_DATA = {
                 en: "Based on a review of four studies; supported by neuroimaging." } },
       drc: { tablet: { of: "PER", pts: [[24, 0.039, 0.028, 0.063], [20, 0.051, 0.037, 0.083], [12, 0.089, 0.064, 0.145]] } },
       depot: [{ id: "trilafon", name: "Trilafon dekanoat", interval: 21 }],
+      doseTab: { src: "Jonsson2019", doses: [4, 8, 12, 16, 20, 24, 32, 40], tabs: [
+        { of: "PER", n: [62, 194, 129, 281, 41, 138, 73, 19], p10: [0.4, 0.4, 0.5, 0.6, 0.6, 1.2, 1.1, 2.3], med: [1.1, 1.3, 1.2, 1.9, 2.6, 3.7, 5.4, 6.7], p90: [4.8, 4.6, 6.2, 8.2, 8.9, 12.3, 19.4, 75] }
+      ] },
       t12: 10, tmax: 2
     },
     {
@@ -482,6 +559,10 @@ window.TDM_DATA = {
       mpr: { pair: ["PAL", "RIS"], range: [3.6, 22.7], rangeDepot: [1.2, 4.3] },
       drc: { tablet: { of: "sum", pts: [[24, 3.344, 2.407, 5.483], [12, 4.977, 3.561, 8.32]] } },
       depot: [{ id: "consta", name: "Risperdal Consta", interval: 14 }],
+      doseTab: { src: "Jonsson2019", doses: [0.5, 1, 2, 4, 6, 8], tabs: [
+        { of: "sum", n: [95, 332, 660, 886, 409, 125], p10: [10, 16, 25, 42, 52, 76], med: [20, 33, 50, 81, 121, 157], p90: [47, 81, 107, 155, 227, 280] },
+        { of: "PAL", n: [95, 332, 660, 886, 409, 125], p10: [4, 8, 12, 22, 29, 42], med: [12, 21, 33, 56, 77, 92], p90: [36, 54, 73, 103, 150, 183] }
+      ] },
       t12: 20, tmax: 1.5
     },
     {
@@ -494,6 +575,9 @@ window.TDM_DATA = {
         note: { no: "Tilstrekkelig reseptorokkupans > 70 ng/mL; økende EPS-risiko rundt 250 ng/mL. Tas med måltid.",
                 en: "Sufficient receptor occupancy > 70 ng/mL; increasing EPS risk around 250 ng/mL. Take with a meal." } },
       drc: { tablet: { of: "ZIP", pts: [[24, 0.566, 0.426, 0.843], [12, 1.508, 1.135, 2.247]] } },
+      doseTab: { src: "Jonsson2019", doses: [40, 60, 80, 100, 120, 160, 200, 240], tabs: [
+        { of: "ZIP", n: [118, 76, 343, 33, 233, 320, 26, 18], p10: [22, 27, 32, 48, 45, 56, 76, 69], med: [57, 83, 97, 124, 126, 156, 162, 211], p90: [149, 183, 227, 371, 316, 389, 360, 669] }
+      ] },
       t12: 7, tmax: 7
     },
     {
@@ -507,6 +591,9 @@ window.TDM_DATA = {
                 en: "Clinical response at 2–14 ng/mL in small studies; efficacy threshold ~3 ng/mL relates to 70% D2 occupancy. Routine TDM data suggest 2–26 ng/mL." } },
       drc: { tablet: { of: "ZUK", pts: [[24, 0.534, 0.387, 0.862], [20, 0.615, 0.445, 0.991], [12, 0.813, 0.589, 1.311]] } },
       depot: [{ id: "cisordinol", name: "Cisordinol depot", interval: 14, t12d: 19 }],
+      doseTab: { src: "Jonsson2019", doses: [4, 8, 10, 12, 16, 20, 30, 40], tabs: [
+        { of: "ZUK", n: [57, 28, 104, 26, 28, 141, 53, 36], p10: [2, 4.9, 6.5, 3.7, 6.9, 7, 10.4, 13], med: [7, 10, 16, 20, 22, 22, 36, 47], p90: [15, 45, 40, 39, 50, 54, 95, 127] }
+      ] },
       t12: 20, tmax: 4
     },
 
@@ -530,7 +617,7 @@ window.TDM_DATA = {
       unit: "umol",
       analytes: [{ key: "LTG", no: "Lamotrigin", en: "Lamotrigine", mw: 256.09, qcm: 10000 }],
       measure: "LTG",
-      ous: { ref: [10, 50], window: [12, 24] },
+      ous: { ref: [10, 50], window: [12, 24], ringe: 75 },
       agnp: { trr: [3000, 15000], of: "LTG", time: [12, 12], ss: [3, 22], alert: 20000, level: 2,
         basis: ["tdm"],
         note: { no: "Basert på retrospektive TDM-analyser (bipolar lidelse, epilepsi). Valproat forlenger og enzyminduktorer forkorter halveringstiden.",
