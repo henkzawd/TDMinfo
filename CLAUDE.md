@@ -97,3 +97,10 @@ and what the owner must do (say plainly if nothing). Don't routinely mention
 filenames, functions, database internals, commands, dependencies, test output
 or debugging history unless asked or needed to understand a problem. State
 any incomplete work or unverified parts clearly in ordinary language.
+
+## Pull request-beskrivelser
+
+Pull request-beskrivelser skal være svært kortfattede, på enkel norsk og uten
+teknisk sjargong eller detaljer om de tekniske endringene. Skriv på et så høyt
+abstraksjonsnivå at en kliniker uten IT-bakgrunn raskt forstår hva som er gjort
+og hva det betyr for brukeren.
