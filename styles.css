@@ -187,6 +187,17 @@ a { color: var(--primary); }
 .kv .v.up { color: var(--err); }
 .kv .v.down { color: var(--info); }
 
+/* Målevariasjon mellom to prøver: én kort konklusjon + info-knapp */
+.mv { --mv: var(--text-muted); --mv-bg: var(--surface-2); display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding: 10px 12px; border-radius: 10px; background: var(--mv-bg); }
+.mv.larger { --mv: var(--warn); --mv-bg: var(--warn-bg); }
+.mv.within { --mv: var(--info); --mv-bg: var(--info-bg); }
+.mv-ic { flex: none; width: 22px; height: 22px; fill: none; stroke: var(--mv); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mv-txt { flex: 1; margin: 0; font-size: 15px; font-weight: 600; }
+.mv-btn { flex: none; width: 24px; height: 24px; display: inline-grid; place-items: center; border: 1.5px solid var(--text-muted); border-radius: 50%; background: transparent; color: var(--text-muted); font: italic 700 13px/1 Georgia, serif; cursor: pointer; padding: 0; }
+.mv-btn:hover, .mv-btn[aria-expanded="true"] { border-color: var(--primary); color: var(--primary); }
+.mv-more { margin: -4px 0 12px; padding: 10px 12px; border-radius: 10px; background: var(--surface-2); font-size: 13px; color: var(--text-muted); }
+.mv-more p { margin: 0 0 6px; } .mv-more p:last-child { margin-bottom: 0; }
+
 .notes { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
 .note { display: flex; gap: 10px; padding: 10px 12px; border-radius: 10px; font-size: 14px; background: var(--info-bg); color: var(--text); }
 .note::before { content: ""; flex: none; width: 4px; border-radius: 4px; background: var(--info); }
