@@ -8,6 +8,7 @@
 
   var DATA = window.TDM_DATA;
   var DRUGS = DATA.drugs;
+  var JONES = window.TDM_JONES;
   var HOUR = 3600e3, DAY = 86400e3;
 
   /* ------------------------------------------------------------------
@@ -93,8 +94,28 @@
       noCv: "Feilmargin er ikke tilgjengelig for denne analysen.",
       cvNote: "Feilmarginen er ± analytisk CV ({cv} %) basert på laboratoriets kontroller.",
       cmpDays: "Tid mellom prøvene", cmpAbs: "Endring", cmpPct: "Endring i prosent", cmpCd: "Endring i konsentrasjon/dose",
-      cmpExpected: "Forventet ved ny dose (lineær kinetikk)", cmpRcv: "Endringen er større enn det analytisk variasjon alene kan forklare (± {v} %).",
-      cmpRcvNo: "Endringen er innenfor det analytisk variasjon alene kan forklare (± {v} %).",
+      cmpExpected: "Forventet ved ny dose (lineær kinetikk)",
+      belowLoq: "Resultatet er oppgitt som under kvantifiseringsgrensen og vises ved grensen.",
+      mv: {
+        larger: "Forskjellen er større enn forventet målevariasjon.",
+        within: "Forskjellen kan skyldes målevariasjon.",
+        na: "Målevariasjonen kan ikke vurderes.",
+        info: "Vis beregning og forbehold",
+        calc: "Ny prøve {a} (analytisk CV {cva} %), forrige prøve {b} (analytisk CV {cvb} %). Forskjell {d}. Kritisk differanse {cd}.",
+        method: "Kritisk differanse = 1,96 × √(SD₁² + SD₂²), der SD = CV × konsentrasjon beregnes for hver prøve (Jones-metoden). Forskjellen regnes som større enn målevariasjonen bare når den overstiger den kritiske differansen (tosidig, 5 % signifikansnivå).",
+        sum: "For summen er CV beregnet ut fra hver enkelt komponent.",
+        only: "Gjelder bare analytisk variasjon, altså laboratoriets målevariasjon. Biologisk variasjon, prøvetidspunkt, dose, etterlevelse og interaksjoner er ikke tatt med.",
+        cvSrc: "CV-verdiene er laboratoriets øvre grenser for kontrollene ({low} % under medium kontrollnivå, ellers {high} %). Reell variasjon er trolig mindre, så vurderingen er forsiktig.",
+        reasons: {
+          missing: "Konsentrasjon mangler for en av prøvene.",
+          invalid: "En av konsentrasjonene er ugyldig.",
+          belowLoq: "Minst én prøve er under kvantifiseringsgrensen.",
+          zero: "Minst én prøve har konsentrasjon 0 (ikke påvist).",
+          noCv: "Det finnes ikke dokumentert analytisk presisjon (CV) for denne analysen.",
+          analyte: "Prøvene gjelder ikke samme analytt.",
+          unit: "Prøvene har ulik enhet."
+        }
+      },
       cmpCdNote: "AGNP: variasjon i konsentrasjon/dose over 20 % hos samme pasient kan tyde på endret etterlevelse eller endret farmakokinetikk (f.eks. interaksjoner).",
       cmpDiffDrr: "Forventet område for dosene (AGNP): ny dose {a}, forrige dose {b}.",
       cmpDosesOus: "Doser: ny {a}, forrige {b}.",
@@ -198,8 +219,28 @@
       noCv: "No margin of error is available for this assay.",
       cvNote: "The margin of error is ± analytical CV ({cv}%) based on the laboratory's controls.",
       cmpDays: "Time between samples", cmpAbs: "Change", cmpPct: "Change in percent", cmpCd: "Change in concentration/dose",
-      cmpExpected: "Expected at new dose (linear kinetics)", cmpRcv: "The change is larger than analytical variation alone can explain (± {v}%).",
-      cmpRcvNo: "The change is within what analytical variation alone can explain (± {v}%).",
+      cmpExpected: "Expected at new dose (linear kinetics)",
+      belowLoq: "The result is reported as below the limit of quantification and is shown at the limit.",
+      mv: {
+        larger: "The difference is larger than expected measurement variation.",
+        within: "The difference may be due to measurement variation.",
+        na: "Measurement variation cannot be assessed.",
+        info: "Show calculation and caveats",
+        calc: "New sample {a} (analytical CV {cva}%), previous sample {b} (analytical CV {cvb}%). Difference {d}. Critical difference {cd}.",
+        method: "Critical difference = 1.96 × √(SD₁² + SD₂²), where SD = CV × concentration is calculated for each sample (Jones method). The difference is considered larger than measurement variation only when it exceeds the critical difference (two-sided, 5% significance level).",
+        sum: "For the sum, the CV is calculated from each component.",
+        only: "Covers analytical variation only, i.e. the laboratory's measurement variation. Biological variation, sampling time, dose, adherence and interactions are not included.",
+        cvSrc: "The CVs are the laboratory's upper limits for its controls ({low}% below the medium control level, otherwise {high}%). True variation is probably smaller, so the assessment is cautious.",
+        reasons: {
+          missing: "A concentration is missing for one of the samples.",
+          invalid: "One of the concentrations is invalid.",
+          belowLoq: "At least one sample is below the limit of quantification.",
+          zero: "At least one sample has a concentration of 0 (not detected).",
+          noCv: "No documented analytical precision (CV) is available for this assay.",
+          analyte: "The samples do not concern the same analyte.",
+          unit: "The samples have different units."
+        }
+      },
       cmpCdNote: "AGNP: intra-individual variation in concentration/dose above 20% may indicate changed adherence or pharmacokinetics (e.g. interactions).",
       cmpDiffDrr: "Expected ranges for the doses (AGNP): new dose {a}, previous dose {b}.",
       cmpDosesOus: "Doses: new {a}, previous {b}.",
@@ -234,7 +275,7 @@
   try { prefs = JSON.parse(store("tdmPrefs") || "{}") || {}; } catch (e) { prefs = {}; }
 
   function blankSample() {
-    return { form: "tablet", formulation: null, dose: null, perDay: 1, depotId: null, interval: null, last: "", sample: "", values: {}, change: "" };
+    return { form: "tablet", formulation: null, dose: null, perDay: 1, depotId: null, interval: null, last: "", sample: "", values: {}, lt: {}, change: "" };
   }
   var S = {
     lang: prefs.lang || ((navigator.language || "nb").slice(0, 2) === "en" ? "en" : "nb"),
@@ -320,9 +361,13 @@
     }
     var v = s.values[q]; return v == null || isNaN(v) ? null : v;
   }
+  // Analyttene en størrelse består av (summen: alle unntatt valgfrie).
+  function qtyAnalytes(d, q) { return d.analytes.filter(function (a) { return q === "sum" ? !a.optional : a.key === q; }); }
+  // Er en av analyttene oppgitt som under kvantifiseringsgrensen («<»)?
+  function qtyBelowLoq(d, s, q) { return qtyAnalytes(d, q).some(function (a) { return !!(s.lt && s.lt[a.key]); }); }
   // Analytisk CV (%) for en størrelse; kvadratsum for summer.
   function qtyCv(d, s, q) {
-    var list = q === "sum" ? d.analytes.filter(function (a) { return !a.optional; }) : d.analytes.filter(function (a) { return a.key === q; });
+    var list = qtyAnalytes(d, q);
     var tot = 0, varSum = 0;
     for (var i = 0; i < list.length; i++) {
       var a = list[i], v = s.values[a.key];
@@ -408,6 +453,7 @@
     var q = d.measure, r = { notes: [], q: q };
     r.value = qtyValue(d, s, q);
     r.cv = qtyCv(d, s, q);
+    r.belowLoq = qtyBelowLoq(d, s, q);
     var ms = dt(s.last, s.sample);
     r.hours = ms == null ? null : ms / HOUR;
     r.daily = s.form === "depot" ? (s.dose > 0 && s.interval > 0 ? s.dose / s.interval : null) : (s.dose > 0 ? s.dose * (s.perDay || 1) : null);
@@ -543,6 +589,7 @@
       }
     }
     if (r.cv == null) N.push(["info", t("noCv")]);
+    if (r.belowLoq) N.push(["info", t("belowLoq")]);
     return r;
   }
 
@@ -584,7 +631,7 @@
     h += dtField(i, "sample", t("sampleTime"), s.sample, E.sample);
     d.analytes.forEach(function (a) {
       var q = d.analytes.length > 1 ? a.key : d.measure;
-      var shown = s.values[a.key] != null && !isNaN(s.values[a.key]) ? fmtInput(toDisp(d, q === "sum" ? a.key : a.key, s.values[a.key])) : "";
+      var shown = s.values[a.key] != null && !isNaN(s.values[a.key]) ? (s.lt[a.key] ? "<" : "") + fmtInput(toDisp(d, a.key, s.values[a.key])) : "";
       h += '<div class="field"><label for="v' + i + a.key + '">' + (d.analytes.length > 1 ? esc(aname(a)) : t("measured")) + (a.optional ? ' <span class="opt">(' + t("optional") + ")</span>" : "") + "</label>" +
         '<div class="with-unit"><input class="input' + (E["v" + a.key] ? " invalid" : "") + '" id="v' + i + a.key + '" data-val="' + a.key + '" inputmode="decimal" autocomplete="off" value="' + esc(shown) + '"><span class="unit">' + unitLabel(d) + "</span></div></div>";
     });
@@ -664,7 +711,12 @@
   app.addEventListener("input", function (e) {
     var el = e.target, card = el.closest("[data-sample]"); if (!card) return;
     var s = S.samples[+card.dataset.sample], d = drug();
-    if (el.dataset.val) { var v = parseNum(el.value); s.values[el.dataset.val] = v == null ? null : fromDisp(d, el.dataset.val, v); }
+    if (el.dataset.val) {
+      // «<x» betyr under kvantifiseringsgrensen x
+      var raw = String(el.value), lt = /^\s*[<≤]/.test(raw), v = parseNum(raw.replace(/^\s*[<≤]\s*/, ""));
+      s.values[el.dataset.val] = v == null ? null : fromDisp(d, el.dataset.val, v);
+      s.lt[el.dataset.val] = lt && v != null;
+    }
     else if (el.dataset.f) {
       var f = el.dataset.f;
       if (f === "dose" || f === "interval") s[f] = parseNum(el.value);
@@ -690,6 +742,7 @@
     else if (act === "submit") submit();
     else if (act === "reset") { S.drugId = null; S.compare = false; S.samples = [blankSample(), blankSample()]; S.errors = {}; renderForm(); }
     else if (act === "edit") { S.view = "form"; renderForm(); window.scrollTo(0, 0); }
+    else if (act === "more") { var box = document.getElementById(b.getAttribute("aria-controls")), open = b.getAttribute("aria-expanded") !== "true"; b.setAttribute("aria-expanded", open); if (box) box.hidden = !open; }
   });
 
   function validate() {
@@ -750,7 +803,7 @@
   function kvBlock(d, R, smp) {
     if (R.value == null) return "";
     var q = R.q, h = '<div class="kv" style="margin-bottom:12px">';
-    h += '<div class="item"><div class="k">' + t("measuredLbl") + (q === "sum" ? " (" + t("sum") + ")" : "") + '</div><div class="v">' + num(toDisp(d, q, R.value)) + " <small>" + unitLabel(d) + "</small></div></div>";
+    h += '<div class="item"><div class="k">' + t("measuredLbl") + (q === "sum" ? " (" + t("sum") + ")" : "") + '</div><div class="v">' + (R.belowLoq ? "&lt;" : "") + num(toDisp(d, q, R.value)) + " <small>" + unitLabel(d) + "</small></div></div>";
     if (R.cv != null) h += '<div class="item"><div class="k">' + t("margin") + " (±" + num(R.cv, 0) + ' %)</div><div class="v">' + num(toDisp(d, q, R.lo)) + "–" + num(toDisp(d, q, R.hi)) + "</div></div>";
     if (R.hours != null) h += '<div class="item"><div class="k">' + t("sTime") + '</div><div class="v">' + (smp.form === "depot" ? num(R.hours / 24, 1) + " <small>" + t("dayUnit") + "</small>" : num(R.hours, 1) + " <small>" + (S.lang === "en" ? "h" : "t") + "</small>") + "</div></div>";
     return h + "</div>";
@@ -758,7 +811,7 @@
 
   function compareCard(d, R0, R1) {
     var s0 = S.samples[0], s1 = S.samples[1], q = d.measure;
-    var h = '<section class="card"><h2>' + t("comparison") + "</h2>";
+    var h = '<section class="card"><h2>' + t("comparison") + "</h2>" + variationBlock(d, R0, R1);
     var ms = dt(s1.sample, s0.sample);
     h += '<div class="kv">';
     if (ms != null) h += '<div class="item"><div class="k">' + t("cmpDays") + '</div><div class="v">' + num(ms / DAY, 1) + " <small>" + t("dayUnit") + "</small></div></div>";
@@ -777,10 +830,6 @@
         }
         if (Math.abs(cdp) > 20) notes.push(["warn", t("cmpCdNote")]);
       }
-      if (R0.cv != null && R1.cv != null && pct != null) {
-        var rcv = 1.96 * Math.sqrt(R0.cv * R0.cv + R1.cv * R1.cv);
-        notes.push([Math.abs(pct) > rcv ? "info" : "ok", fill(t(Math.abs(pct) > rcv ? "cmpRcv" : "cmpRcvNo"), { v: num(rcv, 0) })]);
-      }
       var dd = function (s, R) { return s.form === "depot" ? dfmt(d, s.dose) + " / " + num(s.interval) + " " + t("dayUnit") : dfmt(d, R.daily) + (S.lang === "en" ? "/day" : "/døgn"); };
       var hasDoseNote = false;
       if (R0.dose && R1.dose && R0.dose.length && R1.dose.length) { hasDoseNote = true;
@@ -795,6 +844,33 @@
     h += "</div>";
     if (notes.length) h += '<div style="margin-top:12px">' + notesHtml(notes) + "</div>";
     return h + "</section>";
+  }
+
+  // Analytisk variasjon mellom to prøver (Jones-metoden): én kort konklusjon,
+  // beregning og forbehold bak informasjonssymbolet.
+  var MV_ICON = {
+    larger: '<path d="M12 7v6"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/>',
+    within: '<path d="M8 10h8M8 14h8"/>',
+    na: '<path d="M8 12h8"/>'
+  };
+  function variationBlock(d, R0, R1) {
+    var q = d.measure, M = t("mv");
+    var m = function (R) { return { c: R.value, cv: R.cv, belowLoq: R.belowLoq, analyte: R.q }; };
+    var res = JONES.compare(m(R0), m(R1));
+    var more = [];
+    if (res.status === JONES.NA) more.push(M.reasons[res.reason] || M.reasons.missing);
+    else {
+      more.push(fill(M.calc, { a: cfmt(d, q, R0.value), b: cfmt(d, q, R1.value), cva: num(R0.cv, 1), cvb: num(R1.cv, 1), d: cfmt(d, q, res.diff), cd: cfmt(d, q, res.cd) }));
+      more.push(M.method);
+      if (q === "sum") more.push(M.sum);
+      more.push(fill(M.cvSrc, { low: num(DATA.cv.low), high: num(DATA.cv.high) }));
+    }
+    more.push(M.only);
+    var ref = '<a href="https://doi.org/10.1258/acb.2009.009083" target="_blank" rel="noopener">Jones GRD. Ann Clin Biochem 2009;46:517–519</a>';
+    return '<div class="mv ' + res.status + '"><svg class="mv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/>' + MV_ICON[res.status] + "</svg>" +
+      '<p class="mv-txt">' + M[res.status] + "</p>" +
+      '<button type="button" class="mv-btn" data-act="more" aria-expanded="false" aria-controls="mvMore" aria-label="' + esc(M.info) + '" title="' + esc(M.info) + '">i</button></div>' +
+      '<div class="mv-more" id="mvMore" hidden>' + more.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + "<p>" + ref + "</p></div>";
   }
 
   function sourcesCard(d) {

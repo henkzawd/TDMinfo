@@ -13,6 +13,9 @@ oppover der prøven plasseres sammen med:
 
 Man kan også sammenligne med en tidligere prøve. Da vises antall dager mellom
 prøvene, endring i tall og prosent, og endring i konsentrasjon per dose.
+I tillegg får man én kort konklusjon om forskjellen kan skyldes målevariasjon
+(laboratoriets analytiske variasjon, beregnet med Jones-metoden). Detaljer og
+forbehold vises bak det lille i-symbolet.
 
 Siden fungerer på PC og mobil, har lyst og mørkt tema (følger enheten som
 standard) og kan vises på norsk eller engelsk. Enhet kan byttes mellom nmol/L og
