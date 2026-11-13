@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TDMinfo</title>
+  <meta name="description" content="Sammenlign serumkonsentrasjon av psykofarmaka med referanseområder, dose-relaterte områder og toksiske grenser.">
+  <meta name="theme-color" content="#0b4f78" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1620" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b4f78'/%3E%3Cpath d='M6 20h20' stroke='%2373d2d6' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='20' r='4.5' fill='%23d9b45a'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Sett lagret tema før siden tegnes, så den ikke blinker.
+    try { var t = localStorage.getItem("tdmTheme"); if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="#" id="brandLink" aria-label="TDMinfo">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" class="bm-bg"/>
+          <path d="M6 20h20" class="bm-line"/>
+          <circle cx="19" cy="20" r="4.5" class="bm-dot"/>
+        </svg>
+        <span class="brand-text">TDM<span>info</span></span>
+      </a>
+      <div class="top-actions">
+        <div class="seg" role="group" id="langSeg" aria-label="Språk / Language">
+          <button type="button" data-lang="nb">NO</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+        <button type="button" class="icon-btn" id="themeBtn"></button>
+      </div>
+    </header>
+
+    <main id="app" class="app" aria-live="polite"></main>
+
+    <footer class="footer">
+      <p id="footerText"></p>
+    </footer>
+  </div>
+
+  <div id="tip" class="tip" role="tooltip" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
