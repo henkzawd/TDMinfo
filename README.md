@@ -11,6 +11,12 @@ oppover der prøven plasseres sammen med:
 - valgfritt: AGNP 2026 sitt terapeutiske referanseområde, forventet område for
   dosen og AGNP sin varslingsgrense (kan hukes av på resultatsiden)
 
+Under tidslinjen kommer vurderingen som fargede bokser (prøvetidspunkt,
+referanseområde, dose, toksisitet, steady state og eventuelt metabolitt/morstoff).
+Grønn betyr «i tråd med forventet», gul at noe bør vurderes, rød toksisk område
+eller prøvetidspunkt som ikke kan tolkes, og grå at det ikke kan vurderes.
+Trykk på en boks for å se forklaringen.
+
 Man kan også sammenligne med en tidligere prøve. Da vises antall dager mellom
 prøvene, endring i tall og prosent, og endring i konsentrasjon per dose.
 I tillegg får man én kort konklusjon om forskjellen kan skyldes målevariasjon

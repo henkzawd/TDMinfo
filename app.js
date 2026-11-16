@@ -35,6 +35,20 @@
       req: "Fyll inn feltene som er markert.",
       reqDrug: "Velg legemiddel.",
       timeOrder: "Prøven må være tatt etter siste dose.",
+      tiles: {
+        time: "Prøvetidspunkt", ref: "Referanseområde", dose: "Dose", tox: "Toksisitet", ss: "Steady state", mpr: "Metabolitt/morstoff", cmp: "Endring fra forrige prøve"
+      },
+      sumAll: "I tråd med forventet", sumSome: "{n} punkt bør vurderes", sumSomeP: "{n} punkter bør vurderes", sumTox: "Toksisk område – se toksisitet",
+      assessNew: "Vurdering", assessPrev: "Vurdering – forrige prøve", tapHint: "Trykk på en boks for detaljer.",
+      st: {
+        timeOk: "Passer ({h})", timeAgnp: "Passer ikke med AGNP ({h})", timeBad: "Utenfor anbefalt tidspunkt ({h})",
+        refIn: "Innenfor {r}", refAbove: "Over {r}", refBelow: "Under {r}", refNear: "Nær grensen ({r})", refTiming: "Innenfor, men usikkert tidspunkt",
+        toxOk: "Under ringegrensen", toxRinge: "Over ringegrensen", toxTox: "I toksisk område", toxNone: "Ingen OUS-grense angitt",
+        doseOk: "Vanlig for dosen", doseAbove: "Høyere enn vanlig for dosen", doseBelow: "Lavere enn vanlig for dosen", doseNa: "Ikke tilgjengelig", doseAgnp: "Avvik fra AGNP-forventning",
+        ssOk: "Trolig nådd", ssMaybe: "Muligens ikke nådd", ssNot: "Trolig ikke nådd", ssNa: "Ikke vurdert (dato mangler)",
+        mprOk: "Normalt forhold ({v})", mprOut: "Utenfor normalt ({v})", mprNa: "Ikke vurdert",
+        cmpOk: "{p} · i tråd med dosen", cmpWarn: "{p} · bør vurderes", cmpNa: "Kan ikke vurderes", cmpWithin: "{p} · kan skyldes målevariasjon", cmpLarger: "{p} · større enn målevariasjon"
+      },
       reviewTitle: "Under faglig gjennomgang", reviewLbl: "Under gjennomgang",
       doseOus: "Vis forventet område for dosen (OUS-data)", doseShort: "Forventet ved dose (OUS)",
       inDose: "Vanlig nivå for dosen {dose}: 10.–90. persentil {r}, median {m}{n}.",
@@ -160,6 +174,20 @@
       req: "Please fill in the highlighted fields.",
       reqDrug: "Choose a drug.",
       timeOrder: "The sample must be taken after the last dose.",
+      tiles: {
+        time: "Sampling time", ref: "Reference range", dose: "Dose", tox: "Toxicity", ss: "Steady state", mpr: "Metabolite/parent", cmp: "Change from previous sample"
+      },
+      sumAll: "Consistent with expectations", sumSome: "{n} point should be reviewed", sumSomeP: "{n} points should be reviewed", sumTox: "Toxic range – see toxicity",
+      assessNew: "Assessment", assessPrev: "Assessment – previous sample", tapHint: "Tap a box for details.",
+      st: {
+        timeOk: "Suitable ({h})", timeAgnp: "Does not match AGNP ({h})", timeBad: "Outside recommended time ({h})",
+        refIn: "Within {r}", refAbove: "Above {r}", refBelow: "Below {r}", refNear: "Close to the limit ({r})", refTiming: "Within, but uncertain timing",
+        toxOk: "Below the alert limit", toxRinge: "Above the alert limit", toxTox: "In the toxic range", toxNone: "No OUS limit given",
+        doseOk: "Typical for the dose", doseAbove: "Higher than typical for the dose", doseBelow: "Lower than typical for the dose", doseNa: "Not available", doseAgnp: "Deviates from AGNP expectation",
+        ssOk: "Probably reached", ssMaybe: "Possibly not reached", ssNot: "Probably not reached", ssNa: "Not assessed (date missing)",
+        mprOk: "Normal ratio ({v})", mprOut: "Outside normal ({v})", mprNa: "Not assessed",
+        cmpOk: "{p} · consistent with the dose", cmpWarn: "{p} · should be reviewed", cmpNa: "Cannot be assessed", cmpWithin: "{p} · may be measurement variation", cmpLarger: "{p} · larger than measurement variation"
+      },
       reviewTitle: "Under professional review", reviewLbl: "Under review",
       doseOus: "Show expected range for the dose (OUS data)", doseShort: "Expected at dose (OUS)",
       inDose: "Typical level for the dose {dose}: 10th–90th percentile {r}, median {m}{n}.",
@@ -459,30 +487,30 @@
     r.daily = s.form === "depot" ? (s.dose > 0 && s.interval > 0 ? s.dose / s.interval : null) : (s.dose > 0 ? s.dose * (s.perDay || 1) : null);
     r.timingOus = true; r.timingAgnp = true;
     var N = r.notes;
-    (d.review || []).forEach(function (x) { N.push(["rev", t("reviewTitle") + ": " + nm(x)]); });
+    (d.review || []).forEach(function (x) { N.push(["rev", t("reviewTitle") + ": " + nm(x), "rev"]); });
 
     // Tidspunkt
     if (s.form === "depot") {
       var dd = ms / DAY, iv = s.interval;
       if (iv > 0 && dd != null) {
         var lo = iv - Math.max(2, 0.15 * iv);
-        if (dd < lo) { r.timingOus = r.timingAgnp = false; N.push(["err", fill(t("depotEarly"), { d: num(dd, 1), i: num(iv) })]); }
-        else if (dd > iv + 7) { r.timingOus = r.timingAgnp = false; N.push(["err", fill(t("depotLate"), { d: num(dd, 1), i: num(iv) })]); }
-        else N.push(["ok", fill(t("depotOk"), { d: num(dd, 1), i: num(iv) })]);
+        if (dd < lo) { r.timingOus = r.timingAgnp = false; N.push(["err", fill(t("depotEarly"), { d: num(dd, 1), i: num(iv) }), "time"]); }
+        else if (dd > iv + 7) { r.timingOus = r.timingAgnp = false; N.push(["err", fill(t("depotLate"), { d: num(dd, 1), i: num(iv) }), "time"]); }
+        else N.push(["ok", fill(t("depotOk"), { d: num(dd, 1), i: num(iv) }), "time"]);
       }
-      N.push(["info", t("depotRefNote")]);
+      N.push(["info", t("depotRefNote"), "time"]);
     } else if (r.hours != null) {
       var w = d.ous.window || [12, 24], tol = d.ous.windowTol != null ? d.ous.windowTol : 1;
       if (!windowOk(r.hours, w, tol)) {
         r.timingOus = false;
-        N.push(["err", fill(r.hours < w[0] ? t("timingEarly") : t("timingLate"), { h: num(r.hours, 1), w: winTxtL(w) })]);
-      } else N.push(["ok", fill(t("timingOk"), { h: num(r.hours, 1), w: winTxtL(w) })]);
+        N.push(["err", fill(r.hours < w[0] ? t("timingEarly") : t("timingLate"), { h: num(r.hours, 1), w: winTxtL(w) }), "time"]);
+      } else N.push(["ok", fill(t("timingOk"), { h: num(r.hours, 1), w: winTxtL(w) }), "time"]);
       if (d.agnp && d.agnp.time) {
         var aw = d.agnp.time, at = aw[0] === aw[1] ? Math.max(1, 0.1 * aw[0]) : 1;
         r.timingAgnp = windowOk(r.hours, aw, at);
         if (S.show.trr) {
-          if (!r.timingAgnp) N.push([r.timingOus ? "warn" : "err", fill(t("agnpTimingBad"), { h: num(r.hours, 1), w: winTxtL(aw) })]);
-          else N.push(["ok", fill(t("agnpTimingOk"), { w: winTxtL(aw) })]);
+          if (!r.timingAgnp) N.push([r.timingOus ? "warn" : "err", fill(t("agnpTimingBad"), { h: num(r.hours, 1), w: winTxtL(aw) }), "time"]);
+          else N.push(["ok", fill(t("agnpTimingOk"), { w: winTxtL(aw) }), "time"]);
         }
       }
     }
@@ -497,12 +525,13 @@
         else if (d.t12) ss = [4 * d.t12 / 24, 5 * d.t12 / 24];
         if (ss) {
           var sst = ss[0] === ss[1] ? num(ss[0]) : num(ss[0]) + "–" + num(ss[1]);
-          if (days < ss[0]) N.push(["warn", fill(t("ssNot"), { d: num(days, 1), s: sst })]);
-          else if (days < ss[1]) N.push(["info", fill(t("ssMaybe"), { d: num(days, 1), s: sst })]);
-          else N.push(["ok", fill(t("ssOk"), { d: num(days, 1), s: sst })]);
-        } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric")]);
+          r.ssCls = days < ss[0] ? "not" : days < ss[1] ? "maybe" : "ok";
+          if (days < ss[0]) N.push(["warn", fill(t("ssNot"), { d: num(days, 1), s: sst }), "ss"]);
+          else if (days < ss[1]) N.push(["warn", fill(t("ssMaybe"), { d: num(days, 1), s: sst }), "ss"]);
+          else N.push(["ok", fill(t("ssOk"), { d: num(days, 1), s: sst }), "ss"]);
+        } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric"), "ss"]);
       }
-    } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric")]);
+    } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric"), "ss"]);
 
     if (r.value == null) return r;
     var v = r.value, cvF = r.cv != null ? r.cv / 100 : 0;
@@ -512,20 +541,22 @@
     var ref = [ousToN(d, d.ous.ref[0]), ousToN(d, d.ous.ref[1])];
     var rt = rfmt(d, q, ref[0], ref[1]);
     var cls = v < ref[0] ? "below" : v > ref[1] ? "above" : "in";
-    N.push([cls === "in" ? (r.timingOus ? "ok" : "info") : "warn", fill(t(cls === "in" ? "inRef" : cls === "below" ? "belowRef" : "aboveRef"), { r: rt })]);
+    r.refCls = cls; r.refTxt = rt;
+    N.push([cls === "in" ? (r.timingOus ? "ok" : "warn") : "warn", fill(t(cls === "in" ? "inRef" : cls === "below" ? "belowRef" : "aboveRef"), { r: rt }), "ref"]);
     if (cvF && ((r.lo < ref[0] && r.hi > ref[0]) || (r.lo < ref[1] && r.hi > ref[1])))
-      N.push(["info", fill(t("nearEdge"), { lo: num(toDisp(d, q, r.lo)), hi: cfmt(d, q, r.hi) })]);
+      N.push(["warn", fill(t("nearEdge"), { lo: num(toDisp(d, q, r.lo)), hi: cfmt(d, q, r.hi) }), "ref"]);
     var ringe = ousToN(d, d.ous.ringe), tox = ousToN(d, d.ous.tox), fatal = ousToN(d, d.ous.fatal);
-    if (tox != null && v >= tox) N.push(["err", fill(t("overTox"), { v: cfmt(d, q, tox) })]);
-    else if (ringe != null && v >= ringe) N.push(["err", fill(t("overRinge"), { v: cfmt(d, q, ringe) })]);
-    if (fatal != null && v >= 0.5 * fatal) N.push(["err", fill(t("fatal"), { v: cfmt(d, q, fatal) })]);
-    if (d.ous.note) N.push(["info", nm(d.ous.note)]);
+    r.toxCls = tox != null && v >= tox ? "tox" : ringe != null && v >= ringe ? "ringe" : (ringe != null || tox != null) ? "ok" : "none";
+    if (tox != null && v >= tox) N.push(["err", fill(t("overTox"), { v: cfmt(d, q, tox) }), "tox"]);
+    else if (ringe != null && v >= ringe) N.push(["warn", fill(t("overRinge"), { v: cfmt(d, q, ringe) }), "tox"]);
+    if (fatal != null && v >= 0.5 * fatal) N.push(["err", fill(t("fatal"), { v: cfmt(d, q, fatal) }), "tox"]);
+    if (d.ous.note) N.push(["info", nm(d.ous.note), "ref"]);
 
     // Dose i forhold til doseintervallet
     if (r.daily != null && s.form !== "depot") {
       var dr = d.ous.dose || d.ous.doseSpc;
       if (dr && (r.daily < dr[0] - 1e-9 || r.daily > dr[1] + 1e-9))
-        N.push(["info", fill(t(d.ous.dose ? "doseOutside" : "doseSpcOutside"), { d: dfmt(d, r.daily), r: num(dr[0]) + "–" + num(dr[1]) + " " + doseUnit(d) })]);
+        N.push(["info", fill(t(d.ous.dose ? "doseOutside" : "doseSpcOutside"), { d: dfmt(d, r.daily), r: num(dr[0]) + "–" + num(dr[1]) + " " + doseUnit(d) }), "dose"]);
     }
 
     // AGNP terapeutisk område
@@ -536,29 +567,30 @@
       if (av != null) {
         var tt = rfmt(d, aq, tr[0], tr[1]);
         var c2 = av < tr[0] ? "belowTrr" : av > tr[1] ? "aboveTrr" : "inTrr";
-        N.push([!r.timingAgnp ? "info" : c2 === "inTrr" ? "ok" : "warn", fill(t(c2), { r: tt }) + (r.timingAgnp ? "" : " (" + t("tipTimingBad").toLowerCase().replace(/\.$/, "") + ")")]);
-        if (aq !== q) N.push(["info", fill(t("trrOf"), { x: qtyLabel(d, aq), v: cfmt(d, aq, av) })]);
+        N.push([!r.timingAgnp ? "info" : c2 === "inTrr" ? "ok" : "warn", fill(t(c2), { r: tt }) + (r.timingAgnp ? "" : " (" + t("tipTimingBad").toLowerCase().replace(/\.$/, "") + ")"), "ref"]);
+        if (aq !== q) N.push(["info", fill(t("trrOf"), { x: qtyLabel(d, aq), v: cfmt(d, aq, av) }), "ref"]);
       }
     }
     if (S.show.alert && d.agnp && d.agnp.alert != null) {
       var alq = d.agnp.of, alv = qtyValue(d, s, alq), al = agnpToN(d, alq, d.agnp.alert);
       r.alert = { of: alq, v: al };
-      if (alv != null && alv >= al) N.push(["err", fill(t("overAlert"), { v: cfmt(d, alq, al) })]);
+      if (alv != null && alv >= al) N.push(["err", fill(t("overAlert"), { v: cfmt(d, alq, al) }), "tox"]);
     }
     // OUS forventet for dose (konsentrasjoner ved ulike doser)
     if (S.show.dose && d.doseTab) {
       var DT = d.doseTab;
-      if (s.form === "depot") N.push(["info", t("doseNaDepot")]);
+      if (s.form === "depot") N.push(["info", t("doseNaDepot"), "dose"]);
       else if (r.daily != null) {
         var iv2 = doseInterval(d, r.daily);
-        if (!iv2) N.push(["info", fill(t("doseNaRange"), { a: num(DT.doses[0]), b: num(DT.doses[DT.doses.length - 1]) + " " + doseUnit(d) })]);
+        if (!iv2) N.push(["info", fill(t("doseNaRange"), { a: num(DT.doses[0]), b: num(DT.doses[DT.doses.length - 1]) + " " + doseUnit(d) }), "dose"]);
         else {
           r.dose = iv2;
           iv2.forEach(function (x) {
             var xv = qtyValue(d, s, x.of); if (xv == null) return;
             var o = { dose: x.interp ? dfmt(d, r.daily) + " (" + x.interp + ")" : dfmt(d, r.daily), r: rfmt(d, x.of, x.lo, x.hi), m: cfmt(d, x.of, x.med), n: x.n ? fill(t("doseN"), { n: x.n }) : "" };
             var c4 = xv < x.lo ? "belowDose" : xv > x.hi ? "aboveDose" : "inDose";
-            N.push([c4 === "inDose" ? (r.timingOus ? "ok" : "info") : "warn", fill(t(c4), o) + (x.of !== q ? " " + fill(t("doseOf"), { x: qtyLabel(d, x.of) }) : "")]);
+            if (!r.doseCls || c4 !== "inDose") r.doseCls = c4;
+            N.push([c4 === "inDose" ? (r.timingOus ? "ok" : "warn") : "warn", fill(t(c4), o) + (x.of !== q ? " " + fill(t("doseOf"), { x: qtyLabel(d, x.of) }) : ""), "dose"]);
           });
         }
       }
@@ -567,14 +599,14 @@
     if (S.show.drr) {
       var drr = calcDrr(d, s, r.hours);
       r.drr = drr;
-      if (drr.why) N.push(["info", fill(t("drrNa"), { why: drr.why })]);
+      if (drr.why) N.push(["info", fill(t("drrNa"), { why: drr.why }), "dose"]);
       else {
         var dv = qtyValue(d, s, drr.of), dtt = rfmt(d, drr.of, drr.lo, drr.hi);
         if (dv != null) {
           var c3 = dv < drr.lo ? "belowDrr" : dv > drr.hi ? "aboveDrr" : "inDrr";
-          N.push([c3 === "inDrr" ? "ok" : "warn", fill(t(c3), { r: dtt })]);
+          N.push([c3 === "inDrr" ? "ok" : "warn", fill(t(c3), { r: dtt }), "dose"]);
         }
-        N.push(["info", fill(t("drrNote"), { n: s.perDay, d: dfmt(d, s.dose), h: num(r.hours, 1) }) + (drr.extrap ? " " + t("drrExtrap") : "")]);
+        N.push(["info", fill(t("drrNote"), { n: s.perDay, d: dfmt(d, s.dose), h: num(r.hours, 1) }) + (drr.extrap ? " " + t("drrExtrap") : ""), "dose"]);
       }
     }
     // Metabolitt/morstoff
@@ -585,11 +617,11 @@
         var ma = d.analytes.find(function (a) { return a.key === d.mpr.pair[0]; }), pa = d.analytes.find(function (a) { return a.key === d.mpr.pair[1]; });
         var o = { m: aname(ma), p: aname(pa), v: num(ratio, 2), r: num(rr[0], 2) + "–" + num(rr[1], 2) };
         r.mpr = ratio;
-        N.push([ratio < rr[0] || ratio > rr[1] ? "warn" : "info", fill(t(ratio < rr[0] || ratio > rr[1] ? "mprOut" : "mpr"), o)]);
+        N.push([ratio < rr[0] || ratio > rr[1] ? "warn" : "ok", fill(t(ratio < rr[0] || ratio > rr[1] ? "mprOut" : "mpr"), o), "mpr"]);
       }
     }
-    if (r.cv == null) N.push(["info", t("noCv")]);
-    if (r.belowLoq) N.push(["info", t("belowLoq")]);
+    if (r.cv == null) N.push(["info", t("noCv"), "ref"]);
+    if (r.belowLoq) N.push(["info", t("belowLoq"), "ref"]);
     return r;
   }
 
@@ -742,6 +774,11 @@
     else if (act === "submit") submit();
     else if (act === "reset") { S.drugId = null; S.compare = false; S.samples = [blankSample(), blankSample()]; S.errors = {}; renderForm(); }
     else if (act === "edit") { S.view = "form"; renderForm(); window.scrollTo(0, 0); }
+    else if (act === "tile") {
+      var grid = b.closest(".tiles"), open = b.getAttribute("aria-expanded") !== "true";
+      [].forEach.call(grid.querySelectorAll(".tile"), function (x) { x.setAttribute("aria-expanded", "false"); var pn = document.getElementById(x.getAttribute("aria-controls")); if (pn) pn.hidden = true; });
+      if (open) { b.setAttribute("aria-expanded", "true"); placePanel(grid, b); document.getElementById(b.getAttribute("aria-controls")).hidden = false; }
+    }
     else if (act === "more") { var box = document.getElementById(b.getAttribute("aria-controls")), open = b.getAttribute("aria-expanded") !== "true"; b.setAttribute("aria-expanded", open); if (box) box.hidden = !open; }
   });
 
@@ -784,12 +821,12 @@
     h += '<div class="toggles">' +
       toggle("dose", t("doseOus")) + toggle("trr", t("agnpTrr")) + toggle("drr", t("agnpDrr")) + toggle("alert", t("agnpAlert")) + "</div></section>";
 
-    // Sammenlikning
-    if (R1) h += compareCard(d, R0, R1);
+    // Under gjennomgang
+    if (d.review && d.review.length) h += '<div class="review-banner"><span class="rv">!</span><div>' + d.review.map(function (x) { return "<p><b>" + t("reviewTitle") + ":</b> " + esc(nm(x)) + "</p>"; }).join("") + "</div></div>";
 
-    // Vurdering
-    h += '<section class="card"><h2>' + t("interpretation") + (R1 ? ' <span class="tag">' + t("legNew") + "</span>" : "") + "</h2>" + kvBlock(d, R0, S.samples[0]) + notesHtml(R0.notes) + "</section>";
-    if (R1) h += '<section class="card"><h2>' + t("interpretation") + ' <span class="tag prev">' + t("legPrev") + "</span></h2>" + kvBlock(d, R1, S.samples[1]) + notesHtml(R1.notes) + "</section>";
+    // Vurdering (bokser) – ny prøve, med sammenlikning som egen boks
+    h += tilesSection(d, R0, 0, R1 ? compareDetails(d, R0, R1) : null);
+    if (R1) h += tilesSection(d, R1, 1, null);
 
     h += sourcesCard(d);
     app.innerHTML = h;
@@ -809,9 +846,11 @@
     return h + "</div>";
   }
 
-  function compareCard(d, R0, R1) {
-    var s0 = S.samples[0], s1 = S.samples[1], q = d.measure;
-    var h = '<section class="card"><h2>' + t("comparison") + "</h2>" + variationBlock(d, R0, R1);
+  function compareDetails(d, R0, R1) {
+    var s0 = S.samples[0], s1 = S.samples[1], q = d.measure, ST = t("st");
+    var jres = JONES.compare({ c: R0.value, cv: R0.cv, belowLoq: R0.belowLoq, analyte: R0.q }, { c: R1.value, cv: R1.cv, belowLoq: R1.belowLoq, analyte: R1.q });
+    var out = { level: "na", summary: ST.cmpNa };
+    var h = variationBlock(d, R0, R1);
     var ms = dt(s1.sample, s0.sample);
     h += '<div class="kv">';
     if (ms != null) h += '<div class="item"><div class="k">' + t("cmpDays") + '</div><div class="v">' + num(ms / DAY, 1) + " <small>" + t("dayUnit") + "</small></div></div>";
@@ -829,7 +868,12 @@
           h += '<div class="item"><div class="k">' + t("cmpExpected") + '</div><div class="v">' + num(toDisp(d, q, exp)) + " <small>" + unitLabel(d) + "</small></div></div>";
         }
         if (Math.abs(cdp) > 20) notes.push(["warn", t("cmpCdNote")]);
+        out.cdp = cdp;
       }
+      var pTxt = pct != null ? (pct > 0 ? "+" : "") + num(pct, 0) + " %" : "";
+      if (out.cdp != null) { out.level = Math.abs(out.cdp) > 20 ? "warn" : "ok"; out.summary = fill(out.level === "ok" ? ST.cmpOk : ST.cmpWarn, { p: pTxt }); }
+      else if (jres.status === JONES.LARGER) { out.level = "warn"; out.summary = fill(ST.cmpLarger, { p: pTxt }); }
+      else if (jres.status === JONES.WITHIN) { out.level = "ok"; out.summary = fill(ST.cmpWithin, { p: pTxt }); }
       var dd = function (s, R) { return s.form === "depot" ? dfmt(d, s.dose) + " / " + num(s.interval) + " " + t("dayUnit") : dfmt(d, R.daily) + (S.lang === "en" ? "/day" : "/døgn"); };
       var hasDoseNote = false;
       if (R0.dose && R1.dose && R0.dose.length && R1.dose.length) { hasDoseNote = true;
@@ -843,7 +887,87 @@
     }
     h += "</div>";
     if (notes.length) h += '<div style="margin-top:12px">' + notesHtml(notes) + "</div>";
-    return h + "</section>";
+    out.html = h;
+    return out;
+  }
+
+  /* ---------- Vurderingsbokser ---------- */
+  var TILE_ICON = {
+    time: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    ref: '<path d="M9 3h6M10 3v12.5a2 2 0 0 0 4 0V3"/><path d="M10 10h4"/>',
+    dose: '<rect x="3.5" y="8.5" width="17" height="7" rx="3.5" transform="rotate(-35 12 12)"/><path d="M9.6 8.6l4.8 6.8"/>',
+    tox: '<path d="M12 4l9 15.5H3z"/><path d="M12 10v4.5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/>',
+    ss: '<path d="M7 3.5h10M7 20.5h10M8 3.5c0 4.5 8 4.5 8 8.5s-8 4-8 8.5M16 3.5c0 4.5-8 4.5-8 8.5s8 4 8 8.5"/>',
+    mpr: '<circle cx="7" cy="12" r="3"/><circle cx="17" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M9.7 10.7l5.1-2.6M9.7 13.3l5.1 2.6"/>',
+    cmp: '<path d="M4 17l5-5 4 3 7-8"/><path d="M15 7h5v5"/>'
+  };
+  var LVL_RANK = { err: 3, warn: 2, ok: 1, info: 0 };
+  function tileLevel(notes) {
+    var best = null;
+    notes.forEach(function (n) { if (best == null || LVL_RANK[n[0]] > LVL_RANK[best]) best = n[0]; });
+    return best === "err" ? "red" : best === "warn" ? "yellow" : best === "ok" ? "green" : "grey";
+  }
+  function buildTiles(d, R, smp, cmp) {
+    var ST = t("st"), q = R.q, tiles = [];
+    var by = function (c) { return R.notes.filter(function (n) { return n[2] === c; }); };
+    var hTxt = smp.form === "depot" ? num(R.hours / 24, 1) + " " + t("dayUnit") : num(R.hours, 1) + (S.lang === "en" ? " h" : " t");
+    // Prøvetidspunkt
+    var tn = by("time"), tl = tileLevel(tn);
+    tiles.push({ k: "time", lvl: tl, sum: fill(tl === "red" ? ST.timeBad : tl === "yellow" ? ST.timeAgnp : ST.timeOk, { h: hTxt }), notes: tn });
+    // Referanseområde
+    var rn = by("ref"), rl = R.value == null ? "grey" : tileLevel(rn), rs = "–";
+    if (R.value != null) rs = R.refCls === "above" ? fill(ST.refAbove, { r: R.refTxt }) : R.refCls === "below" ? fill(ST.refBelow, { r: R.refTxt }) :
+      (!R.timingOus ? ST.refTiming : rl === "yellow" ? fill(ST.refNear, { r: R.refTxt }) : fill(ST.refIn, { r: R.refTxt }));
+    tiles.push({ k: "ref", lvl: rl, sum: rs, notes: rn, kv: true });
+    // Dose
+    var dn = by("dose"), dl = tileLevel(dn);
+    var ds = dl === "grey" ? ST.doseNa : R.doseCls === "aboveDose" ? ST.doseAbove : R.doseCls === "belowDose" ? ST.doseBelow : dl === "yellow" ? ST.doseAgnp : ST.doseOk;
+    tiles.push({ k: "dose", lvl: dl, sum: ds, notes: dn });
+    // Toksisitet
+    var xn = by("tox"), xl = R.toxCls === "tox" ? "red" : R.toxCls === "ringe" ? "yellow" : R.toxCls === "none" ? (tileLevel(xn) === "grey" ? "grey" : tileLevel(xn)) : (tileLevel(xn) === "grey" ? "green" : tileLevel(xn));
+    if (R.value == null) xl = "grey";
+    tiles.push({ k: "tox", lvl: xl, sum: R.toxCls === "tox" ? ST.toxTox : R.toxCls === "ringe" ? ST.toxRinge : R.toxCls === "none" ? ST.toxNone : ST.toxOk, notes: xn, toxInfo: true });
+    // Steady state
+    var sn = by("ss"), sl = tileLevel(sn);
+    var ssSum = R.ssCls === "ok" ? ST.ssOk : R.ssCls === "maybe" ? ST.ssMaybe : R.ssCls === "not" ? ST.ssNot : ST.ssNa;
+    tiles.push({ k: "ss", lvl: sl, sum: ssSum, notes: sn });
+    // Metabolitt/morstoff
+    if (d.mpr) {
+      var mn = by("mpr"), ml = tileLevel(mn);
+      tiles.push({ k: "mpr", lvl: ml, sum: R.mpr != null ? fill(ml === "yellow" ? ST.mprOut : ST.mprOk, { v: num(R.mpr, 2) }) : ST.mprNa, notes: mn });
+    }
+    // Endring fra forrige prøve
+    if (cmp) tiles.push({ k: "cmp", lvl: cmp.level === "warn" ? "yellow" : cmp.level === "ok" ? "green" : "grey", sum: cmp.summary, html: cmp.html });
+    return tiles;
+  }
+  function tileSvg(k) { return '<svg class="tile-ic" viewBox="0 0 24 24" aria-hidden="true">' + TILE_ICON[k] + "</svg>"; }
+  function tilesSection(d, R, i, cmp) {
+    var smp = S.samples[i], tiles = buildTiles(d, R, smp, cmp), TT = t("tiles");
+    var bad = tiles.filter(function (x) { return x.lvl === "red" || x.lvl === "yellow"; });
+    var toxRed = tiles.some(function (x) { return x.k === "tox" && x.lvl === "red"; });
+    var anyRed = tiles.some(function (x) { return x.lvl === "red"; });
+    var sumCls = toxRed || anyRed ? "red" : bad.length ? "yellow" : "green";
+    var sumTxt = toxRed ? t("sumTox") : bad.length ? fill(bad.length === 1 ? t("sumSome") : t("sumSomeP"), { n: bad.length }) : t("sumAll");
+    var h = '<section class="card assess"><div class="card-head"><h2>' + (i === 0 ? t("assessNew") + (S.compare ? ' <span class="tag">' + t("legNew") + "</span>" : "") : t("assessPrev")) + "</h2></div>";
+    h += '<div class="sumline ' + sumCls + '"><span class="dot"></span><b>' + esc(sumTxt) + "</b>" + (R.value != null ? '<span class="sumval">' + (R.belowLoq ? "&lt;" : "") + esc(cfmt(d, R.q, R.value)) + "</span>" : "") + "</div>";
+    h += '<div class="tiles" data-tiles="' + i + '">';
+    tiles.forEach(function (x, j) {
+      h += '<button type="button" class="tile ' + x.lvl + '" data-act="tile" data-i="' + i + '" data-j="' + j + '" aria-expanded="false" aria-controls="tp' + i + "-" + j + '" style="order:' + (j * 2) + '">' +
+        tileSvg(x.k) + '<span class="tile-t">' + esc(TT[x.k]) + '</span><span class="tile-s">' + esc(x.sum) + "</span></button>";
+    });
+    tiles.forEach(function (x, j) {
+      var body = x.html || ((x.kv ? kvBlock(d, R, smp) : "") + (x.notes && x.notes.length ? notesHtml(x.notes) : '<p class="muted-p">' + esc(x.sum) + "</p>"));
+      h += '<div class="tile-panel ' + x.lvl + '" id="tp' + i + "-" + j + '" hidden>' + body + "</div>";
+    });
+    h += '</div><p class="tap-hint">' + t("tapHint") + "</p></section>";
+    return h;
+  }
+  function placePanel(grid, btn) {
+    var tiles = grid.querySelectorAll(".tile"), j = +btn.dataset.j;
+    var cols = getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length || 1;
+    var rowEnd = Math.min(tiles.length - 1, Math.ceil((j + 1) / cols) * cols - 1);
+    var panel = document.getElementById(btn.getAttribute("aria-controls"));
+    if (panel) panel.style.order = rowEnd * 2 + 1;
   }
 
   // Analytisk variasjon mellom to prøver (Jones-metoden): én kort konklusjon,
@@ -1067,7 +1191,7 @@
     if (tg) { tipPinned = true; showTip(tg, e.clientX, e.clientY); } else { tipPinned = false; tipEl.hidden = true; }
   });
   window.addEventListener("scroll", function () { if (tipPinned) { tipPinned = false; tipEl.hidden = true; } }, { passive: true });
-  var rz; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { if (S.view === "results") { var d = drug(); drawTimeline(d, evaluate(d, S.samples[0]), S.compare ? evaluate(d, S.samples[1]) : null); } }, 150); });
+  var rz; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { if (S.view === "results") { var d = drug(); drawTimeline(d, evaluate(d, S.samples[0]), S.compare ? evaluate(d, S.samples[1]) : null); [].forEach.call(document.querySelectorAll('.tile[aria-expanded="true"]'), function (b) { placePanel(b.closest(".tiles"), b); }); } }, 150); });
 
   /* ------------------------------------------------------------------
      8. TEMA, SPRÅK, OPPSTART
