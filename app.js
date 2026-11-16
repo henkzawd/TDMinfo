@@ -29,6 +29,14 @@
       lastDose: "Siste dose tatt", lastInj: "Siste injeksjon gitt", sampleTime: "Prøven tatt",
       measured: "Målt konsentrasjon", optional: "valgfritt",
       changeDate: "Oppstart eller siste doseendring", changeHint: "Valgfritt – brukes til å vurdere om steady state er nådd.",
+      sampleDate: "Prøvedato", sampleClock: "Prøven tatt kl.", lastClock: "Siste dose tatt kl.", clockPh: "f.eks. 830", lastDay: "Dag for siste dose",
+      dayBefore: "Dagen før", sameDayL: "Samme dag", altHours: "Alternativt: timer siden siste dose", injDays: "Dager siden siste injeksjon",
+      otherDose: "Annen dose", otherVal: "Annet", std: "standard", intervalHint: "Juster om pasienten får injeksjon oftere eller sjeldnere enn vanlig.",
+      prevDaysPh: "eller dager før ny prøve", daysBefore: "dager før", recent: "Nylig brukt:",
+      ssLbl: "Tid siden oppstart eller siste doseendring", ssUnknown: "Vet ikke", ssExact: "Eller antall dager",
+      ssC: { w1: "< 1 uke", w2: "1–2 uker", w2p: "> 2 uker", w4: "2–4 uker", w4p: "> 4 uker", m2: "< 2 mnd", m4: "2–4 mnd", m6: "4–6 mnd", m6p: "> 6 mnd" },
+      thOk: "{h} t før prøven – passer ({w})", thBad: "{h} t før prøven – utenfor anbefalt tidspunkt ({w})", thPrev: "Dagen før", thSame: "Samme dag",
+      thDepotOk: "{d} døgn etter injeksjon – bunnverdi før neste injeksjon", thDepotBad: "{d} døgn etter injeksjon – ikke bunnverdi",
       compare: "Sammenlikne med tidligere prøve", compareHint: "Legg inn en tidligere prøve av samme legemiddel.",
       show: "Vis resultat", edit: "Endre opplysninger", reset: "Nullstill",
       units: "Enhet",
@@ -97,9 +105,9 @@
       depotEarly: "Prøven er tatt {d} døgn etter injeksjon (intervall {i} døgn). Ved depot skal prøven tas rett før neste injeksjon. Konsentrasjonen er trolig høyere enn bunnverdien, og resultatet kan ikke sammenlignes direkte med referanseområdene.",
       depotLate: "Prøven er tatt {d} døgn etter injeksjon, mer enn en uke etter planlagt neste injeksjon (intervall {i} døgn). Konsentrasjonen kan være lavere enn ved regelmessige injeksjoner.",
       depotRefNote: "OUS referanseområde er i hovedsak basert på tablettbehandling.",
-      ssNot: "Steady state er trolig ikke nådd: {d} døgn siden oppstart/doseendring (forventet tid til steady state: {s} døgn).",
-      ssMaybe: "Steady state er muligens ikke helt nådd: {d} døgn siden oppstart/doseendring (forventet tid til steady state: {s} døgn).",
-      ssOk: "Steady state er trolig nådd ({d} døgn siden oppstart/doseendring; forventet {s} døgn).",
+      ssNot: "Steady state er trolig ikke nådd: {d} siden oppstart/doseendring (forventet tid til steady state: {s} døgn).",
+      ssMaybe: "Steady state er muligens ikke helt nådd: {d} siden oppstart/doseendring (forventet tid til steady state: {s} døgn).",
+      ssOk: "Steady state er trolig nådd ({d} siden oppstart/doseendring; forventet {s} døgn).",
       ssDepotGeneric: "Ved depotinjeksjoner nås steady state først etter flere måneder (ca. 4–5 halveringstider).",
       doseOutside: "Dosen ({d}) ligger utenfor doseintervallet OUS referanseområde er basert på ({r}).",
       doseSpcOutside: "Dosen ({d}) ligger utenfor vanlig dosering ({r}).",
@@ -168,6 +176,14 @@
       lastDose: "Last dose taken", lastInj: "Last injection given", sampleTime: "Sample taken",
       measured: "Measured concentration", optional: "optional",
       changeDate: "Start or last dose change", changeHint: "Optional – used to assess whether steady state has been reached.",
+      sampleDate: "Sample date", sampleClock: "Sample taken at", lastClock: "Last dose taken at", clockPh: "e.g. 830", lastDay: "Day of last dose",
+      dayBefore: "Day before", sameDayL: "Same day", altHours: "Alternatively: hours since last dose", injDays: "Days since last injection",
+      otherDose: "Other dose", otherVal: "Other", std: "standard", intervalHint: "Adjust if the patient is injected more or less often than usual.",
+      prevDaysPh: "or days before new sample", daysBefore: "days before", recent: "Recently used:",
+      ssLbl: "Time since start or last dose change", ssUnknown: "Don't know", ssExact: "Or number of days",
+      ssC: { w1: "< 1 week", w2: "1–2 weeks", w2p: "> 2 weeks", w4: "2–4 weeks", w4p: "> 4 weeks", m2: "< 2 months", m4: "2–4 months", m6: "4–6 months", m6p: "> 6 months" },
+      thOk: "{h} h before the sample – suitable ({w})", thBad: "{h} h before the sample – outside recommended time ({w})", thPrev: "Day before", thSame: "Same day",
+      thDepotOk: "{d} days after injection – trough before next injection", thDepotBad: "{d} days after injection – not a trough",
       compare: "Compare with a previous sample", compareHint: "Add an earlier sample of the same drug.",
       show: "Show result", edit: "Edit details", reset: "Reset",
       units: "Unit",
@@ -236,9 +252,9 @@
       depotEarly: "The sample was taken {d} days after the injection (interval {i} days). With depot injections the sample should be taken just before the next injection. The concentration is probably above the trough and cannot be compared directly with the ranges.",
       depotLate: "The sample was taken {d} days after the injection, more than a week after the planned next injection (interval {i} days). The concentration may be lower than with regular injections.",
       depotRefNote: "The OUS reference range is mainly based on oral treatment.",
-      ssNot: "Steady state has probably not been reached: {d} days since start/dose change (expected time to steady state: {s} days).",
-      ssMaybe: "Steady state may not be fully reached: {d} days since start/dose change (expected time to steady state: {s} days).",
-      ssOk: "Steady state has probably been reached ({d} days since start/dose change; expected {s} days).",
+      ssNot: "Steady state has probably not been reached: {d} since start/dose change (expected time to steady state: {s} days).",
+      ssMaybe: "Steady state may not be fully reached: {d} since start/dose change (expected time to steady state: {s} days).",
+      ssOk: "Steady state has probably been reached ({d} since start/dose change; expected {s} days).",
       ssDepotGeneric: "With depot injections, steady state is only reached after several months (approx. 4–5 half-lives).",
       doseOutside: "The dose ({d}) is outside the dose interval the OUS reference range is based on ({r}).",
       doseSpcOutside: "The dose ({d}) is outside usual dosing ({r}).",
@@ -303,7 +319,8 @@
   try { prefs = JSON.parse(store("tdmPrefs") || "{}") || {}; } catch (e) { prefs = {}; }
 
   function blankSample() {
-    return { form: "tablet", formulation: null, dose: null, perDay: 1, depotId: null, interval: null, last: "", sample: "", values: {}, lt: {}, change: "" };
+    return { form: "tablet", formulation: null, dose: null, perDay: 1, depotId: null, interval: null, last: "", sample: "", values: {}, lt: {},
+      sDate: todayIso(), sTime: "", lTime: "", sameDay: false, hrs: null, injDays: null, ssSel: null, ssDays: null, prevDays: null };
   }
   var S = {
     lang: prefs.lang || ((navigator.language || "nb").slice(0, 2) === "en" ? "en" : "nb"),
@@ -312,7 +329,7 @@
     view: "form",
     drugId: null,
     compare: false,
-    samples: [blankSample(), blankSample()],
+    samples: [blankSample(), Object.assign(blankSample(), { sDate: "" })],
     errors: {}
   };
   function savePrefs() { store("tdmPrefs", JSON.stringify({ lang: S.lang, units: S.units, show: S.show })); }
@@ -515,22 +532,18 @@
       }
     }
 
-    // Steady state
-    if (s.change) {
-      var cd = dt(s.change, s.sample);
-      if (cd != null && cd >= 0) {
-        var days = cd / DAY, ss = null;
-        if (s.form === "depot") { var dp = depotOf(d, s); if (dp && dp.t12d) ss = [4 * dp.t12d, 5 * dp.t12d]; }
-        else if (d.agnp && d.agnp.ss) ss = d.agnp.ss;
-        else if (d.t12) ss = [4 * d.t12 / 24, 5 * d.t12 / 24];
-        if (ss) {
-          var sst = ss[0] === ss[1] ? num(ss[0]) : num(ss[0]) + "–" + num(ss[1]);
-          r.ssCls = days < ss[0] ? "not" : days < ss[1] ? "maybe" : "ok";
-          if (days < ss[0]) N.push(["warn", fill(t("ssNot"), { d: num(days, 1), s: sst }), "ss"]);
-          else if (days < ss[1]) N.push(["warn", fill(t("ssMaybe"), { d: num(days, 1), s: sst }), "ss"]);
-          else N.push(["ok", fill(t("ssOk"), { d: num(days, 1), s: sst }), "ss"]);
-        } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric"), "ss"]);
-      }
+    // Steady state (fra knapper eller presist antall dager)
+    var rg = ssRange(d, s);
+    if (rg) {
+      var ss = null;
+      if (s.form === "depot") { var dp = depotOf(d, s); if (dp && dp.t12d) ss = [4 * dp.t12d, 5 * dp.t12d]; }
+      else if (d.agnp && d.agnp.ss) ss = d.agnp.ss;
+      else if (d.t12) ss = [4 * d.t12 / 24, 5 * d.t12 / 24];
+      if (ss) {
+        var sst = ss[0] === ss[1] ? num(ss[0]) : num(ss[0]) + "–" + num(ss[1]);
+        r.ssCls = rg.hi < ss[0] ? "not" : rg.lo >= ss[1] ? "ok" : "maybe";
+        N.push([r.ssCls === "not" ? "warn" : r.ssCls === "maybe" ? "warn" : "ok", fill(t(r.ssCls === "not" ? "ssNot" : r.ssCls === "maybe" ? "ssMaybe" : "ssOk"), { d: rg.txt, s: sst }), "ss"]);
+      } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric"), "ss"]);
     } else if (s.form === "depot") N.push(["info", t("ssDepotGeneric"), "ss"]);
 
     if (r.value == null) return r;
@@ -630,44 +643,142 @@
      ------------------------------------------------------------------ */
   var app = document.getElementById("app");
 
+  /* ---------- Hjelpere for tid og dato ---------- */
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function isoDate(dt) { return dt.getFullYear() + "-" + pad2(dt.getMonth() + 1) + "-" + pad2(dt.getDate()); }
+  function isoLocal(dt) { return isoDate(dt) + "T" + pad2(dt.getHours()) + ":" + pad2(dt.getMinutes()); }
+  function todayIso() { return isoDate(new Date()); }
+  function addDays(iso, n) { var p = iso.split("-"); var dt = new Date(+p[0], +p[1] - 1, +p[2]); dt.setDate(dt.getDate() + n); return isoDate(dt); }
+  // «830», «0830», «8.30», «8:30», «20» → «08:30» / «20:00»
+  function parseClock(str) {
+    if (str == null) return null;
+    var s = String(str).trim().replace(/[.,;\s]/g, ":");
+    var h, m;
+    if (/^\d{1,2}:\d{1,2}$/.test(s)) { var a = s.split(":"); h = +a[0]; m = +a[1]; }
+    else if (/^\d{1,2}$/.test(s)) { h = +s; m = 0; }
+    else if (/^\d{3,4}$/.test(s)) { h = +s.slice(0, s.length - 2); m = +s.slice(-2); }
+    else return null;
+    if (h > 23 || m > 59) return null;
+    return pad2(h) + ":" + pad2(m);
+  }
+  // Regn ut prøvetidspunkt og siste dose ut fra de enkle feltene
+  function syncTimes(i) {
+    var s = S.samples[i];
+    if (i === 1 && s.prevDays > 0 && S.samples[0].sDate) s.sDate = addDays(S.samples[0].sDate, -Math.round(s.prevDays));
+    var st = parseClock(s.sTime);
+    s.sample = s.sDate && st ? s.sDate + "T" + st : "";
+    s.last = "";
+    if (!s.sample) return;
+    var sm = Date.parse(s.sample);
+    if (s.form === "depot") { if (s.injDays > 0) s.last = isoLocal(new Date(sm - s.injDays * DAY)); }
+    else if (s.hrs > 0) s.last = isoLocal(new Date(sm - s.hrs * HOUR));
+    else { var lt = parseClock(s.lTime); if (lt) s.last = (s.sameDay ? s.sDate : addDays(s.sDate, -1)) + "T" + lt; }
+  }
+  // Knapper for tid siden oppstart/doseendring, tilpasset legemiddel og form
+  function ssChips(d, s) {
+    if (s.form === "depot") return [["m2", 0, 60, t("ssC").m2], ["m4", 60, 120, t("ssC").m4], ["m6", 120, 180, t("ssC").m6], ["m6p", 180, Infinity, t("ssC").m6p]];
+    var hi = d.agnp && d.agnp.ss ? d.agnp.ss[1] : 7;
+    if (hi <= 10) return [["w1", 0, 7, t("ssC").w1], ["w2", 7, 14, t("ssC").w2], ["w2p", 14, Infinity, t("ssC").w2p]];
+    return [["w1", 0, 7, t("ssC").w1], ["w2", 7, 14, t("ssC").w2], ["w4", 14, 28, t("ssC").w4], ["w4p", 28, Infinity, t("ssC").w4p]];
+  }
+  function ssRange(d, s) {
+    if (s.ssDays != null && !isNaN(s.ssDays) && s.ssDays >= 0) return { lo: s.ssDays, hi: s.ssDays, txt: num(s.ssDays) + " " + t("dayUnit") };
+    var c = s.ssSel && ssChips(d, s).find(function (x) { return x[0] === s.ssSel; });
+    return c ? { lo: c[1], hi: c[2], txt: c[3] } : null;
+  }
+  var NICE = [0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5, 9, 10, 12.5, 15, 20, 25, 30, 37.5, 40, 50, 60, 75, 80, 100, 120, 125, 150, 175, 200, 225, 250, 300, 375, 400, 450, 500, 600, 800, 1000, 1200];
+  function doseChips(d, s) {
+    if (s.form === "depot") { var p = depotOf(d, s); return p && p.doses ? p.doses : []; }
+    if (d.id === "litium") return [6, 12, 18, 24];
+    var list = d.doseTab ? d.doseTab.doses.slice() : null;
+    if (!list) {
+      var r = d.ous.dose || d.ous.doseSpc || (d.id === "lamotrigin" ? [25, 300] : null);
+      if (!r) return [];
+      list = NICE.filter(function (x) { return x >= r[0] - 1e-9 && x <= r[1] + 1e-9; });
+    }
+    if (list.length > 9) { var step = (list.length - 1) / 8, out = []; for (var k = 0; k < 9; k++) out.push(list[Math.round(k * step)]); list = out.filter(function (x, j, a) { return a.indexOf(x) === j; }); }
+    return list;
+  }
+  function chip(f, v, label, on) { return '<button type="button" class="chip" data-act="chip" data-f="' + f + '" data-v="' + esc(String(v)) + '" aria-pressed="' + (!!on) + '">' + esc(label) + "</button>"; }
+  function chipsRow(html) { return html ? '<div class="chips">' + html + "</div>" : ""; }
+  function timingHint(d, s) {
+    if (!s.sample || !s.last) return "";
+    var h = (Date.parse(s.sample) - Date.parse(s.last)) / HOUR;
+    if (!(h > 0)) return '<span class="th bad">' + t("timeOrder") + "</span>";
+    if (s.form === "depot") {
+      var dd = h / 24, iv = s.interval, ok = iv > 0 && dd >= iv - Math.max(2, 0.15 * iv) && dd <= iv + 7;
+      return '<span class="th ' + (ok ? "ok" : "bad") + '">' + fill(t(ok ? "thDepotOk" : "thDepotBad"), { d: num(dd, 1) }) + "</span>";
+    }
+    var w = d.ous.window || [12, 24], tol = d.ous.windowTol != null ? d.ous.windowTol : 1, good = windowOk(h, w, tol);
+    var lastTxt = s.hrs > 0 ? "" : (s.sameDay ? t("thSame") : t("thPrev")) + " · ";
+    return '<span class="th ' + (good ? "ok" : "bad") + '">' + lastTxt + fill(t(good ? "thOk" : "thBad"), { h: num(h, 1), w: winTxtL(w) }) + "</span>";
+  }
+
   function sampleCard(i) {
     var d = drug(), s = S.samples[i], E = S.errors[i] || {};
     var isPrev = i === 1;
     var h = '<section class="card" data-sample="' + i + '"><h2>' + (isPrev ? t("samplePrev") + ' <span class="tag prev">' + t("samplePrevTag") + "</span>" : t("sampleNew")) + "</h2>";
     if (!d) return h + '<p class="subtle-box">' + t("reqDrug") + "</p></section>";
+    syncTimes(i);
     h += '<div class="grid">';
+    // Form
     if (d.depot) {
-      h += '<div class="field full"><span class="lbl">' + t("form") + '</span><div class="seg wide" role="group">' +
+      h += '<div class="field full"><div class="seg wide" role="group" aria-label="' + t("form") + '">' +
         '<button type="button" data-act="form" data-v="tablet" aria-pressed="' + (s.form === "tablet") + '">' + t("tablet") + "</button>" +
         '<button type="button" data-act="form" data-v="depot" aria-pressed="' + (s.form === "depot") + '">' + t("depot") + "</button></div></div>";
     }
+    // Dose
+    var dc = doseChips(d, s), du = s.form === "depot" ? "mg" : doseUnit(d);
     if (s.form === "depot") {
-      h += '<div class="field"><label for="dp' + i + '">' + t("depotProduct") + '</label><select class="input" id="dp' + i + '" data-f="depotId">';
-      d.depot.forEach(function (p) { h += '<option value="' + p.id + '"' + (s.depotId === p.id ? " selected" : "") + ">" + esc(p.name) + "</option>"; });
-      h += '<option value="other"' + (s.depotId === "other" ? " selected" : "") + ">" + t("depotOther") + "</option></select></div>";
-      h += numField(i, "dose", t("depotDose"), "mg", s.dose, E.dose);
-      h += numField(i, "interval", t("interval"), t("days"), s.interval, E.interval);
-      h += dtField(i, "last", t("lastInj"), s.last, E.last);
-    } else {
-      if (d.drc && Object.keys(d.drc).length > 1) {
-        h += '<div class="field full"><label for="fm' + i + '">' + t("formulation") + '</label><select class="input" id="fm' + i + '" data-f="formulation">';
-        Object.keys(d.drc).forEach(function (k) { h += '<option value="' + k + '"' + ((s.formulation || Object.keys(d.drc)[0]) === k ? " selected" : "") + ">" + esc(nm(d.drc[k].label) || k) + "</option>"; });
-        h += "</select></div>";
-      }
-      h += numField(i, "dose", t("dosePer"), doseUnit(d), s.dose, E.dose, d.id === "litium" ? t("litDose") : null);
-      h += '<div class="field"><label for="pd' + i + '">' + t("perDay") + '</label><select class="input" id="pd' + i + '" data-f="perDay">';
-      [1, 2, 3, 4].forEach(function (n) { h += '<option value="' + n + '"' + (s.perDay === n ? " selected" : "") + ">" + n + "</option>"; });
-      h += '</select><div class="hint" id="dd' + i + '">' + dailyHint(d, s) + "</div></div>";
-      h += dtField(i, "last", t("lastDose"), s.last, E.last);
+      h += '<div class="field full"><span class="lbl">' + t("depotProduct") + "</span>" + chipsRow(d.depot.map(function (p) { return chip("depotId", p.id, p.name, s.depotId === p.id); }).join("") + chip("depotId", "other", t("depotOther"), s.depotId === "other")) + "</div>";
+    } else if (d.drc && Object.keys(d.drc).length > 1) {
+      var fk = s.formulation || Object.keys(d.drc)[0];
+      h += '<div class="field full"><span class="lbl">' + t("formulation") + "</span>" + chipsRow(Object.keys(d.drc).map(function (k) { return chip("formulation", k, nm(d.drc[k].label) || k, fk === k); }).join("")) + "</div>";
     }
-    h += dtField(i, "sample", t("sampleTime"), s.sample, E.sample);
+    h += '<div class="field full"><label for="dose' + i + '">' + (s.form === "depot" ? t("depotDose") : t("dosePer")) + "</label>" +
+      chipsRow(dc.map(function (x) { return chip("dose", x, num(x) + " " + du, s.dose === x); }).join("")) +
+      '<div class="row-inline"><div class="with-unit"><input class="input' + (E.dose ? " invalid" : "") + '" id="dose' + i + '" data-f="dose" inputmode="decimal" autocomplete="off" placeholder="' + t("otherDose") + '" value="' + (s.dose > 0 && dc.indexOf(s.dose) < 0 ? esc(num(s.dose, 3).replace(/\s/g, "")) : "") + '"><span class="unit">' + esc(du) + "</span></div>";
+    if (s.form !== "depot") {
+      h += '<div class="seg perday" role="group" aria-label="' + t("perDay") + '">' + [1, 2, 3, 4].map(function (n) { return '<button type="button" data-act="chip" data-f="perDay" data-v="' + n + '" aria-pressed="' + (s.perDay === n) + '">' + n + "×</button>"; }).join("") + "</div>";
+    }
+    h += "</div>" + (d.id === "litium" && s.form !== "depot" ? '<div class="hint">' + t("litDose") + "</div>" : "") + '<div class="hint" id="dd' + i + '">' + dailyHint(d, s) + "</div></div>";
+    if (s.form === "depot") {
+      var pd = depotOf(d, s), ivs = [14, 21, 28]; if (pd && ivs.indexOf(pd.interval) < 0) ivs.push(pd.interval); ivs.sort(function (a, b) { return a - b; });
+      h += '<div class="field full"><label for="interval' + i + '">' + t("interval") + "</label>" +
+        chipsRow(ivs.map(function (x) { return chip("interval", x, num(x) + " " + t("days") + (pd && pd.interval === x ? " (" + t("std") + ")" : ""), s.interval === x); }).join("")) +
+        '<div class="with-unit" style="max-width:220px"><input class="input' + (E.interval ? " invalid" : "") + '" id="interval' + i + '" data-f="interval" inputmode="decimal" placeholder="' + t("otherVal") + '" value="' + (s.interval > 0 && ivs.indexOf(s.interval) < 0 ? esc(num(s.interval)) : "") + '"><span class="unit">' + t("days") + "</span></div>" +
+        '<div class="hint">' + t("intervalHint") + "</div></div>";
+    }
+    // Prøvetidspunkt
+    h += '<div class="field"><label for="sDate' + i + '">' + t("sampleDate") + "</label>" +
+      '<input class="input' + (E.sDate ? " invalid" : "") + '" type="date" id="sDate' + i + '" data-f="sDate" value="' + esc(s.sDate || "") + '">' +
+      (isPrev ? '<div class="with-unit" style="margin-top:6px"><input class="input" id="prevDays' + i + '" data-f="prevDays" inputmode="numeric" placeholder="' + t("prevDaysPh") + '" value="' + (s.prevDays > 0 ? esc(String(s.prevDays)) : "") + '"><span class="unit">' + t("daysBefore") + "</span></div>" : "") + "</div>";
+    h += '<div class="field"><label for="sTime' + i + '">' + t("sampleClock") + "</label>" +
+      '<input class="input clock' + (E.sTime ? " invalid" : "") + '" id="sTime' + i + '" data-f="sTime" data-clock="1" inputmode="numeric" autocomplete="off" placeholder="' + t("clockPh") + '" value="' + esc(s.sTime || "") + '">' +
+      chipsRow(["07:30", "08:00", "08:30", "09:00"].map(function (x) { return chip("sTime", x, x, parseClock(s.sTime) === x); }).join("")) + "</div>";
+    // Siste dose
+    if (s.form === "depot") {
+      h += '<div class="field full"><label for="injDays' + i + '">' + t("injDays") + '</label><div class="with-unit" style="max-width:220px"><input class="input' + (E.injDays ? " invalid" : "") + '" id="injDays' + i + '" data-f="injDays" inputmode="decimal" autocomplete="off" value="' + (s.injDays > 0 ? esc(num(s.injDays, 1)) : "") + '"><span class="unit">' + t("days") + "</span></div></div>";
+    } else {
+      h += '<div class="field full"><label for="lTime' + i + '">' + t("lastClock") + "</label>" +
+        '<div class="row-inline wrap"><input class="input clock' + (E.lTime ? " invalid" : "") + '" id="lTime' + i + '" data-f="lTime" data-clock="1" inputmode="numeric" autocomplete="off" placeholder="' + t("clockPh") + '" value="' + esc(s.lTime || "") + '"' + (s.hrs > 0 ? " disabled" : "") + ">" +
+        '<div class="seg" role="group" aria-label="' + t("lastDay") + '"><button type="button" data-act="chip" data-f="sameDay" data-v="0" aria-pressed="' + !s.sameDay + '">' + t("dayBefore") + '</button><button type="button" data-act="chip" data-f="sameDay" data-v="1" aria-pressed="' + !!s.sameDay + '">' + t("sameDayL") + "</button></div></div>" +
+        chipsRow(["08:00", "20:00", "21:00", "22:00"].map(function (x) { return chip("lTime", x, x, parseClock(s.lTime) === x && !(s.hrs > 0)); }).join("")) +
+        '<div class="alt"><label for="hrs' + i + '">' + t("altHours") + '</label><div class="with-unit" style="max-width:200px"><input class="input" id="hrs' + i + '" data-f="hrs" inputmode="decimal" autocomplete="off" value="' + (s.hrs > 0 ? esc(num(s.hrs, 1)) : "") + '"><span class="unit">' + (S.lang === "en" ? "h" : "t") + "</span></div></div></div>";
+    }
+    h += '<div class="field full timing-live" id="th' + i + '">' + timingHint(d, s) + "</div>";
+    // Konsentrasjoner
     d.analytes.forEach(function (a) {
-      var q = d.analytes.length > 1 ? a.key : d.measure;
       var shown = s.values[a.key] != null && !isNaN(s.values[a.key]) ? (s.lt[a.key] ? "<" : "") + fmtInput(toDisp(d, a.key, s.values[a.key])) : "";
       h += '<div class="field"><label for="v' + i + a.key + '">' + (d.analytes.length > 1 ? esc(aname(a)) : t("measured")) + (a.optional ? ' <span class="opt">(' + t("optional") + ")</span>" : "") + "</label>" +
         '<div class="with-unit"><input class="input' + (E["v" + a.key] ? " invalid" : "") + '" id="v' + i + a.key + '" data-val="' + a.key + '" inputmode="decimal" autocomplete="off" value="' + esc(shown) + '"><span class="unit">' + unitLabel(d) + "</span></div></div>";
     });
-    h += '<div class="field full"><label for="ch' + i + '">' + t("changeDate") + ' <span class="opt">(' + t("optional") + ')</span></label><input class="input" type="date" id="ch' + i + '" data-f="change" value="' + esc(s.change) + '"><div class="hint">' + t("changeHint") + "</div></div>";
+    // Steady state
+    var rng = ssRange(d, s);
+    h += '<div class="field full"><span class="lbl">' + t("ssLbl") + ' <span class="opt">(' + t("optional") + ")</span></span>" +
+      chipsRow(ssChips(d, s).map(function (c) { return chip("ssSel", c[0], c[3], s.ssSel === c[0] && s.ssDays == null); }).join("") + chip("ssSel", "", t("ssUnknown"), !rng)) +
+      '<div class="with-unit" style="max-width:220px"><input class="input" id="ssDays' + i + '" data-f="ssDays" inputmode="numeric" autocomplete="off" placeholder="' + t("ssExact") + '" value="' + (s.ssDays != null && !isNaN(s.ssDays) ? esc(String(s.ssDays)) : "") + '"><span class="unit">' + t("days") + "</span></div>" +
+      '<div class="hint">' + t("changeHint") + "</div></div>";
     h += "</div>";
     if (E.order) h += '<p class="err-text">' + t("timeOrder") + "</p>";
     return h + "</section>";
@@ -676,9 +787,6 @@
   function fmtInput(v) { if (v == null) return ""; var r = Math.round(v * 1000) / 1000; return num(r, 3).replace(/\s/g, ""); }
   function numField(i, f, label, unit, val, err, hint) {
     return '<div class="field"><label for="' + f + i + '">' + label + '</label><div class="with-unit"><input class="input' + (err ? " invalid" : "") + '" id="' + f + i + '" data-f="' + f + '" inputmode="decimal" autocomplete="off" value="' + (val != null && !isNaN(val) ? esc(num(val, 3).replace(/\s/g, "")) : "") + '"><span class="unit">' + esc(unit) + "</span></div>" + (hint ? '<div class="hint">' + esc(hint) + "</div>" : "") + "</div>";
-  }
-  function dtField(i, f, label, val, err) {
-    return '<div class="field"><label for="' + f + i + '">' + label + '</label><input class="input' + (err ? " invalid" : "") + '" type="datetime-local" id="' + f + i + '" data-f="' + f + '" value="' + esc(val) + '"></div>';
   }
   function unitSeg() {
     var d = drug();
@@ -695,6 +803,7 @@
     h += '<section class="card"><div class="card-head"><h2>' + t("drug") + "</h2>" + unitSeg() + "</div>" +
       '<div class="combo" id="combo"><input class="input' + (S.errors.drug ? " invalid" : "") + '" id="drugInput" role="combobox" aria-expanded="false" aria-controls="drugList" autocomplete="off" placeholder="' + t("drugPh") + '" value="' + esc(d ? dname(d) : "") + '">' +
       '<ul class="combo-list" id="drugList" role="listbox" hidden></ul></div>' +
+      (recentList().length ? '<div class="recent"><span>' + t("recent") + "</span>" + recentList().map(function (id) { var x = DRUGS.find(function (y) { return y.id === id; }); return '<button type="button" class="chip" data-act="recent" data-id="' + id + '" aria-pressed="' + (S.drugId === id) + '">' + esc(dname(x)) + "</button>"; }).join("") + "</div>" : "") +
       '<label class="check"><input type="checkbox" id="cmpBox"' + (S.compare ? " checked" : "") + "><span>" + t("compare") + "<small>" + t("compareHint") + "</small></span></label></section>";
     h += sampleCard(0);
     if (S.compare) h += sampleCard(1);
@@ -704,6 +813,17 @@
     bindCombo();
   }
 
+  // Nylig brukte legemidler (lagres bare i denne nettleseren, ingen pasientdata)
+  function recentList() { try { var r = JSON.parse(store("tdmRecent") || "[]"); return Array.isArray(r) ? r.filter(function (id) { return DRUGS.some(function (x) { return x.id === id; }); }) : []; } catch (e) { return []; } }
+  function pushRecent(id) { var r = recentList().filter(function (x) { return x !== id; }); r.unshift(id); store("tdmRecent", JSON.stringify(r.slice(0, 5))); }
+  function chooseDrug(id) {
+    if (S.drugId !== id) {
+      S.drugId = id; S.samples = [blankSample(), blankSample()]; S.samples[1].sDate = ""; S.errors = {}; S.compare = false;
+      var d = drug(); if (d.depot) { S.samples[0].depotId = d.depot[0].id; S.samples[1].depotId = d.depot[0].id; }
+    }
+    delete S.errors.drug; pushRecent(id); renderForm();
+    var f = document.getElementById("dose0"); if (f && window.innerWidth > 700) f.focus();
+  }
   function bindCombo() {
     var inp = document.getElementById("drugInput"), list = document.getElementById("drugList");
     var active = -1, items = [];
@@ -721,10 +841,7 @@
       list.hidden = false; inp.setAttribute("aria-expanded", "true"); active = -1;
     }
     function close() { list.hidden = true; inp.setAttribute("aria-expanded", "false"); }
-    function choose(id) {
-      if (S.drugId !== id) { S.drugId = id; S.samples = [blankSample(), blankSample()]; var d = drug(); if (d.depot) { S.samples[0].depotId = d.depot[0].id; S.samples[1].depotId = d.depot[0].id; } }
-      delete S.errors.drug; close(); renderForm();
-    }
+    function choose(id) { close(); chooseDrug(id); }
     function hl() { [].forEach.call(list.querySelectorAll(".opt-item"), function (el, k) { el.classList.toggle("active", k === active); }); if (active >= 0) { var el = list.querySelectorAll(".opt-item")[active]; el.scrollIntoView({ block: "nearest" }); inp.setAttribute("aria-activedescendant", el.id); } }
     inp.addEventListener("focus", function () { inp.select(); open(""); });
     inp.addEventListener("input", function () { open(inp.value); });
@@ -740,46 +857,93 @@
   }
 
   // Lesing av felt
+  function refreshLive(i) {
+    var d = drug(), s = S.samples[i]; syncTimes(i);
+    var th = document.getElementById("th" + i); if (th) th.innerHTML = timingHint(d, s);
+    var hd = document.getElementById("dd" + i); if (hd) hd.textContent = dailyHint(d, s);
+    if (i === 0 && S.compare) { syncTimes(1); var t1 = document.getElementById("th1"); if (t1) t1.innerHTML = timingHint(d, S.samples[1]); var sd1 = document.getElementById("sDate1"); if (sd1 && S.samples[1].prevDays > 0) sd1.value = S.samples[1].sDate; }
+  }
   app.addEventListener("input", function (e) {
     var el = e.target, card = el.closest("[data-sample]"); if (!card) return;
-    var s = S.samples[+card.dataset.sample], d = drug();
+    var i = +card.dataset.sample, s = S.samples[i], d = drug();
     if (el.dataset.val) {
       // «<x» betyr under kvantifiseringsgrensen x
       var raw = String(el.value), lt = /^\s*[<≤]/.test(raw), v = parseNum(raw.replace(/^\s*[<≤]\s*/, ""));
       s.values[el.dataset.val] = v == null ? null : fromDisp(d, el.dataset.val, v);
       s.lt[el.dataset.val] = lt && v != null;
+      return;
     }
-    else if (el.dataset.f) {
-      var f = el.dataset.f;
-      if (f === "dose" || f === "interval") s[f] = parseNum(el.value);
-      else if (f === "perDay") s.perDay = +el.value;
-      else s[f] = el.value;
-      if (f === "dose" || f === "perDay") { var hd = document.getElementById("dd" + card.dataset.sample); if (hd) hd.textContent = dailyHint(d, s); }
+    var f = el.dataset.f; if (!f) return;
+    if (f === "dose" || f === "interval" || f === "hrs" || f === "injDays" || f === "prevDays") {
+      s[f] = parseNum(el.value);
+      if (f === "dose" || f === "interval") [].forEach.call(card.querySelectorAll('.chip[data-f="' + f + '"]'), function (c) { c.setAttribute("aria-pressed", "false"); });
+      if (f === "hrs") { var lt2 = document.getElementById("lTime" + i); if (lt2) lt2.disabled = s.hrs > 0; }
     }
+    else if (f === "ssDays") { var nv = parseNum(el.value); s.ssDays = nv == null || isNaN(nv) ? null : nv; [].forEach.call(card.querySelectorAll('.chip[data-f="ssSel"]'), function (c) { c.setAttribute("aria-pressed", String(s.ssDays == null && c.dataset.v === "")); }); }
+    else if (f === "sTime" || f === "lTime") {
+      s[f] = el.value;
+      var digits = el.value.replace(/\D/g, "");
+      [].forEach.call(card.querySelectorAll('.chip[data-f="' + f + '"]'), function (c) { c.setAttribute("aria-pressed", String(parseClock(el.value) === c.dataset.v)); });
+      // Hopp videre når et fullt klokkeslett er skrevet (f.eks. 0830)
+      if (digits.length === 4 && parseClock(el.value)) { el.value = parseClock(el.value); s[f] = el.value; focusNext(el); }
+    }
+    else if (f === "sDate") { s.sDate = el.value; if (i === 1) { s.prevDays = null; var pdI = document.getElementById("prevDays1"); if (pdI) pdI.value = ""; } }
+    refreshLive(i);
+  });
+  function focusNext(el) {
+    var all = [].slice.call(app.querySelectorAll("input:not([disabled]), select")), k = all.indexOf(el);
+    if (k >= 0 && all[k + 1]) all[k + 1].focus();
+  }
+  app.addEventListener("focusout", function (e) {
+    var el = e.target; if (!el.dataset || !el.dataset.clock) return;
+    var c = parseClock(el.value); if (c) { el.value = c; var card = el.closest("[data-sample]"); S.samples[+card.dataset.sample][el.dataset.f] = c; refreshLive(+card.dataset.sample); }
+  });
+  app.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target.tagName === "INPUT" && e.target.id !== "drugInput" && S.view === "form") { e.preventDefault(); e.target.blur(); submit(); }
   });
   app.addEventListener("change", function (e) {
     var el = e.target;
-    if (el.id === "cmpBox") { S.compare = el.checked; if (S.compare && !S.samples[1].form) S.samples[1] = blankSample(); renderForm(); return; }
+    if (el.id === "cmpBox") {
+      S.compare = el.checked;
+      if (S.compare) copyToPrev();
+      renderForm(); return;
+    }
     if (el.dataset && el.dataset.show) { S.show[el.dataset.show] = el.checked; savePrefs(); renderResults(); return; }
-    var card = el.closest && el.closest("[data-sample]"); if (!card) return;
-    var s = S.samples[+card.dataset.sample], d = drug();
-    if (el.dataset.f === "depotId") { s.depotId = el.value; var p = depotOf(d, s); if (p && p.interval) s.interval = p.interval; renderForm(); }
-    else if (el.dataset.f === "formulation") s.formulation = el.value;
   });
+  // Forrige prøve: start med samme dose og klokkeslett som den nye
+  function copyToPrev() {
+    var a = S.samples[0], b = S.samples[1];
+    if (b.dose != null || b.sTime) return;
+    ["form", "formulation", "dose", "perDay", "depotId", "interval", "sTime", "lTime", "sameDay", "hrs", "injDays"].forEach(function (k) { b[k] = a[k]; });
+    b.sDate = "";
+  }
+  function rerenderKeep() { var y = window.scrollY; renderForm(); window.scrollTo(0, y); }
   app.addEventListener("click", function (e) {
     var b = e.target.closest("[data-act]"); if (!b) return;
     var act = b.dataset.act;
-    if (act === "form") { var s = S.samples[+b.closest("[data-sample]").dataset.sample], d = drug(); s.form = b.dataset.v; if (s.form === "depot" && !s.depotId) s.depotId = d.depot[0].id; if (s.form === "depot") { var p = depotOf(d, s); if (p && !s.interval) s.interval = p.interval; } renderForm(); }
+    if (act === "form") { var s = S.samples[+b.closest("[data-sample]").dataset.sample], d = drug(); s.form = b.dataset.v; if (s.form === "depot" && !s.depotId) s.depotId = d.depot[0].id; if (s.form === "depot") { var p = depotOf(d, s); if (p && !s.interval) s.interval = p.interval; } s.dose = null; rerenderKeep(); }
+    else if (act === "chip") {
+      var card = b.closest("[data-sample]"), i = +card.dataset.sample, sm = S.samples[i], dd = drug(), f = b.dataset.f, v = b.dataset.v;
+      if (f === "dose" || f === "interval") sm[f] = +v;
+      else if (f === "perDay") sm.perDay = +v;
+      else if (f === "sameDay") sm.sameDay = v === "1";
+      else if (f === "sTime" || f === "lTime") { sm[f] = v; if (f === "lTime") sm.hrs = null; }
+      else if (f === "ssSel") { sm.ssSel = v || null; sm.ssDays = null; }
+      else if (f === "formulation") sm.formulation = v;
+      else if (f === "depotId") { sm.depotId = v; var pp = depotOf(dd, sm); if (pp && pp.interval) sm.interval = pp.interval; sm.dose = null; }
+      rerenderKeep();
+    }
+    else if (act === "recent") { chooseDrug(b.dataset.id); }
     else if (act === "units") { S.units = b.dataset.v; savePrefs(); S.view === "form" ? renderForm() : renderResults(); }
     else if (act === "submit") submit();
-    else if (act === "reset") { S.drugId = null; S.compare = false; S.samples = [blankSample(), blankSample()]; S.errors = {}; renderForm(); }
+    else if (act === "reset") { S.drugId = null; S.compare = false; S.samples = [blankSample(), blankSample()]; S.samples[1].sDate = ""; S.errors = {}; renderForm(); }
     else if (act === "edit") { S.view = "form"; renderForm(); window.scrollTo(0, 0); }
     else if (act === "tile") {
       var grid = b.closest(".tiles"), open = b.getAttribute("aria-expanded") !== "true";
       [].forEach.call(grid.querySelectorAll(".tile"), function (x) { x.setAttribute("aria-expanded", "false"); var pn = document.getElementById(x.getAttribute("aria-controls")); if (pn) pn.hidden = true; });
       if (open) { b.setAttribute("aria-expanded", "true"); placePanel(grid, b); document.getElementById(b.getAttribute("aria-controls")).hidden = false; }
     }
-    else if (act === "more") { var box = document.getElementById(b.getAttribute("aria-controls")), open = b.getAttribute("aria-expanded") !== "true"; b.setAttribute("aria-expanded", open); if (box) box.hidden = !open; }
+    else if (act === "more") { var box = document.getElementById(b.getAttribute("aria-controls")), open2 = b.getAttribute("aria-expanded") !== "true"; b.setAttribute("aria-expanded", open2); if (box) box.hidden = !open2; }
   });
 
   function validate() {
@@ -787,12 +951,14 @@
     if (!d) { errs.drug = true; return errs; }
     var n = S.compare ? 2 : 1;
     for (var i = 0; i < n; i++) {
+      syncTimes(i);
       var s = S.samples[i], E = {};
       if (!(s.dose > 0)) E.dose = 1;
       if (s.form === "depot" && !(s.interval > 0)) E.interval = 1;
-      if (!s.last || isNaN(Date.parse(s.last))) E.last = 1;
-      if (!s.sample || isNaN(Date.parse(s.sample))) E.sample = 1;
-      if (!E.last && !E.sample && Date.parse(s.sample) <= Date.parse(s.last)) { E.order = 1; E.sample = 1; }
+      if (!s.sDate) E.sDate = 1;
+      if (!parseClock(s.sTime)) E.sTime = 1;
+      if (!s.last) { if (s.form === "depot") E.injDays = 1; else E.lTime = 1; }
+      if (s.sample && s.last && Date.parse(s.sample) <= Date.parse(s.last)) { E.order = 1; E.lTime = 1; }
       d.analytes.forEach(function (a) { var v = s.values[a.key]; if (a.optional) { if (v != null && (isNaN(v) || v < 0)) E["v" + a.key] = 1; } else if (v == null || isNaN(v) || v < 0) E["v" + a.key] = 1; });
       if (Object.keys(E).length) errs[i] = E;
     }

@@ -352,7 +352,7 @@ window.TDM_DATA = {
                 en: "Based on a systematic review with meta-analysis (Hart et al. 2022). Above the upper limit further improvement is unlikely. Aripiprazole alone: 120–270 ng/mL." } },
       mpr: { pair: ["DARI", "ARI"], range: [0.3, 0.5] },
       drc: { tablet: { of: "sum", pts: [[24, 17.725, 13.348, 26.422], [12, 19.412, 14.626, 28.91]] } },
-      depot: [{ id: "maintena", name: "Abilify Maintena", interval: 28, t12d: 47 }],
+      depot: [{ id: "maintena", name: "Abilify Maintena", interval: 28, t12d: 47, doses: [300, 400] }],
       doseTab: { src: "Jonsson2019", doses: [5, 10, 15, 20, 25, 30], tabs: [
         { of: "ARI", n: [128, 418, 568, 207, 32, 215], p10: [73, 134, 206, 247, 406, 371], med: [166, 285, 415, 527, 685, 792], p90: [365, 613, 764, 973, 1235, 1392] },
         { of: "DARI", n: [128, 418, 568, 207, 32, 215], p10: [42, 48, 68, 84, 91, 110], med: [54, 95, 136, 165, 191, 235], p90: [72, 175, 231, 297, 306, 396] }
@@ -381,7 +381,7 @@ window.TDM_DATA = {
         note: { no: "Basert på farmakokinetiske studier (bl.a. Jönsson et al. 2019); 60 % D2-okkupans ved 1 ng/mL. Gjelder cis-isomeren.",
                 en: "Based on PK studies (incl. Jönsson et al. 2019); 60% D2 occupancy at 1 ng/mL. Refers to the cis isomer." } },
       drc: { tablet: { of: "FLX", pts: [[24, 1.205, 0.874, 1.938], [20, 1.305, 0.947, 2.099], [12, 1.532, 1.112, 2.464]] } },
-      depot: [{ id: "fluanxol", name: "Fluanxol depot", interval: 14, t12d: 17 }],
+      depot: [{ id: "fluanxol", name: "Fluanxol depot", interval: 14, t12d: 17, doses: [20, 40, 60, 100] }],
       doseTab: { src: "Jonsson2019", doses: [1, 2, 3, 4, 5, 6, 10, 20], tabs: [
         { of: "FLX", n: [33, 33, 35, 21, 17, 13, 14, 7], p10: [0.9, 1.3, 2.1, 1.1, 1.9, 2.2, 0.4, 0.9], med: [1.8, 2.8, 4.4, 5.4, 12.2, 6.5, 12.1, 18.3], p90: [3.4, 9.7, 7.4, 11.5, 31, 26.1, 35.7, 69.3] }
       ] },
@@ -397,7 +397,7 @@ window.TDM_DATA = {
         note: { no: "Basert på kliniske studier og PET. Ingen ulike målområder for depot og tabletter.",
                 en: "Based on clinical and PET studies. No separate target range for the LAI formulation." } },
       drc: { tablet: { of: "HAL", pts: [[24, 0.339, 0.234, 0.611], [20, 0.381, 0.263, 0.686], [12, 0.48, 0.332, 0.866]] } },
-      depot: [{ id: "haldol", name: "Haldol depot", interval: 28, t12d: 21 }],
+      depot: [{ id: "haldol", name: "Haldol depot", interval: 28, t12d: 21, doses: [50, 100, 150, 200, 300] }],
       doseTab: { src: "Jonsson2019", doses: [2, 4, 6, 8, 10, 12, 16, 20], tabs: [
         { of: "HAL", n: [50, 61, 24, 43, 20, 17, 20, 13], p10: [1, 2.5, 3.9, 3.5, 7.3, 7.9, 15.5, 10.7], med: [2.8, 5.7, 7.9, 11.2, 14.7, 14.4, 21.5, 27], p90: [8.2, 11.4, 26.3, 28.2, 59.4, 30.2, 56.9, 75.8] }
       ] },
@@ -511,7 +511,7 @@ window.TDM_DATA = {
         note: { no: "Basert på systematiske oversikter med meta-analyse; terskel 20 ng/mL for respons, terapeutisk maksimum ved 40 ng/mL. Gjelder 12–15 t etter inntak ved én daglig dose.",
                 en: "Based on systematic reviews with meta-analysis; response threshold 20 ng/mL, therapeutic maximum at 40 ng/mL. Valid 12–15 h after once-daily intake." } },
       drc: { tablet: { of: "OLA", label: { no: "Gjelder ikke-røykere", en: "Valid for non-smokers" }, pts: [[12, 1.642, 1.122, 3.063]] } },
-      depot: [{ id: "zypadhera", name: "Zypadhera", interval: 28, t12d: 30 }],
+      depot: [{ id: "zypadhera", name: "Zypadhera", interval: 28, t12d: 30, doses: [150, 210, 300, 405] }],
       doseTab: { src: "Jonsson2019", doses: [2.5, 5, 7.5, 10, 15, 20, 25, 30], tabs: [
         { of: "OLA", n: [245, 1194, 675, 3190, 1853, 2139, 229, 409], p10: [10, 18, 28, 31, 48, 56, 60, 77], med: [21, 39, 59, 70, 98, 119, 137, 166], p90: [40, 83, 113, 141, 197, 241, 290, 336] }
       ] },
@@ -528,9 +528,9 @@ window.TDM_DATA = {
                 en: "From a retrospective study of serum levels and clinical effect; consistent with PET (70–80% D2 occupancy at 24–36 ng/mL)." } },
       drc: { tablet: { of: "PAL", label: { no: "Depottablett (XR, om morgenen)", en: "Extended release (morning)" }, pts: [[24, 5.695, 3.85, 10.935]] } },
       depot: [
-        { id: "xeplion", name: "Xeplion", interval: 28, t12d: 49 },
-        { id: "trevicta", name: "Trevicta", interval: 91, t12d: 139 },
-        { id: "byannli", name: "Byannli", interval: 182, t12d: 159 }
+        { id: "xeplion", name: "Xeplion", interval: 28, t12d: 49, doses: [25, 50, 75, 100, 150] },
+        { id: "trevicta", name: "Trevicta", interval: 91, t12d: 139, doses: [175, 263, 350, 525] },
+        { id: "byannli", name: "Byannli", interval: 182, t12d: 159, doses: [700, 1000] }
       ],
       t12: 23, tmax: 24
     },
@@ -544,7 +544,7 @@ window.TDM_DATA = {
         note: { no: "Basert på oversiktsartikkel over fire studier; støttes av nevroavbildning.",
                 en: "Based on a review of four studies; supported by neuroimaging." } },
       drc: { tablet: { of: "PER", pts: [[24, 0.039, 0.028, 0.063], [20, 0.051, 0.037, 0.083], [12, 0.089, 0.064, 0.145]] } },
-      depot: [{ id: "trilafon", name: "Trilafon dekanoat", interval: 21 }],
+      depot: [{ id: "trilafon", name: "Trilafon dekanoat", interval: 21, doses: [54, 108, 216] }],
       doseTab: { src: "Jonsson2019", doses: [4, 8, 12, 16, 20, 24, 32, 40], tabs: [
         { of: "PER", n: [62, 194, 129, 281, 41, 138, 73, 19], p10: [0.4, 0.4, 0.5, 0.6, 0.6, 1.2, 1.1, 2.3], med: [1.1, 1.3, 1.2, 1.9, 2.6, 3.7, 5.4, 6.7], p90: [4.8, 4.6, 6.2, 8.2, 8.9, 12.3, 19.4, 75] }
       ] },
@@ -564,7 +564,7 @@ window.TDM_DATA = {
                 en: "The active moiety must be considered. PET: target occupancy at 13–28 ng/mL; > 40 ng/mL only for insufficient response." } },
       mpr: { pair: ["PAL", "RIS"], range: [3.6, 22.7], rangeDepot: [1.2, 4.3] },
       drc: { tablet: { of: "sum", pts: [[24, 3.344, 2.407, 5.483], [12, 4.977, 3.561, 8.32]] } },
-      depot: [{ id: "consta", name: "Risperdal Consta", interval: 14 }],
+      depot: [{ id: "consta", name: "Risperdal Consta", interval: 14, doses: [25, 37.5, 50] }],
       doseTab: { src: "Jonsson2019", doses: [0.5, 1, 2, 4, 6, 8], tabs: [
         { of: "sum", n: [95, 332, 660, 886, 409, 125], p10: [10, 16, 25, 42, 52, 76], med: [20, 33, 50, 81, 121, 157], p90: [47, 81, 107, 155, 227, 280] },
         { of: "PAL", n: [95, 332, 660, 886, 409, 125], p10: [4, 8, 12, 22, 29, 42], med: [12, 21, 33, 56, 77, 92], p90: [36, 54, 73, 103, 150, 183] }
@@ -596,7 +596,7 @@ window.TDM_DATA = {
         note: { no: "Klinisk respons ved 2–14 ng/mL i små studier; effektterskel ~3 ng/mL tilsvarer 70 % D2-okkupans. Rutine-TDM-data tilsier 2–26 ng/mL.",
                 en: "Clinical response at 2–14 ng/mL in small studies; efficacy threshold ~3 ng/mL relates to 70% D2 occupancy. Routine TDM data suggest 2–26 ng/mL." } },
       drc: { tablet: { of: "ZUK", pts: [[24, 0.534, 0.387, 0.862], [20, 0.615, 0.445, 0.991], [12, 0.813, 0.589, 1.311]] } },
-      depot: [{ id: "cisordinol", name: "Cisordinol depot", interval: 14, t12d: 19 }],
+      depot: [{ id: "cisordinol", name: "Cisordinol depot", interval: 14, t12d: 19, doses: [100, 200, 300, 400] }],
       doseTab: { src: "Jonsson2019", doses: [4, 8, 10, 12, 16, 20, 30, 40], tabs: [
         { of: "ZUK", n: [57, 28, 104, 26, 28, 141, 53, 36], p10: [2, 4.9, 6.5, 3.7, 6.9, 7, 10.4, 13], med: [7, 10, 16, 20, 22, 22, 36, 47], p90: [15, 45, 40, 39, 50, 54, 95, 127] }
       ] },

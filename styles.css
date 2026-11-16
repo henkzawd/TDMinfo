@@ -265,3 +265,28 @@ details.card[open] > summary { margin-bottom: 12px; }
 .tile-panel.red { border-color: color-mix(in srgb, var(--err) 60%, var(--border)); }
 .muted-p { margin: 0; color: var(--text-muted); font-size: 14px; }
 .tap-hint { margin: 10px 0 0; font-size: 12px; color: var(--text-muted); }
+
+/* ---------- Enklere utfylling ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 8px; }
+.chip { border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer; min-height: 34px; }
+.chip:hover { border-color: var(--teal); }
+.chip[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
+:root[data-theme="dark"] .chip[aria-pressed="true"] { color: #06121b; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: #06121b; } }
+.recent { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; font-size: 13px; color: var(--text-muted); }
+.recent > span { margin-right: 2px; }
+.row-inline.wrap { flex-wrap: wrap; align-items: center; }
+.row-inline .clock { max-width: 140px; flex: 0 0 140px; }
+.row-inline .seg { flex: 0 0 auto; }
+.seg.perday button { padding: 8px 12px; }
+.input.clock { font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.alt { margin-top: 6px; }
+.alt label { font-weight: 500 !important; color: var(--text-muted); font-size: 12px !important; }
+.input:disabled { opacity: .45; }
+.timing-live:empty { display: none; }
+.th { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+.th::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+.th.ok { background: var(--ok-bg); color: var(--ok); }
+.th.bad { background: var(--err-bg); color: var(--err); }
+
+@media (max-width: 560px) { .row-inline { flex-wrap: wrap; } .row-inline .with-unit { flex: 1 1 100%; } }

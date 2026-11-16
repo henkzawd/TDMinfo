@@ -11,6 +11,11 @@ oppover der prøven plasseres sammen med:
 - valgfritt: AGNP 2026 sitt terapeutiske referanseområde, forventet område for
   dosen og AGNP sin varslingsgrense (kan hukes av på resultatsiden)
 
+Utfyllingen er laget for få tastetrykk: dagens dato er forhåndsvalgt, klokkeslett
+skrives som tall (f.eks. 830), siste dose antas tatt dagen før prøven (kan endres),
+og vanlige doser, tidspunkter og steady state-valg finnes som knapper. Nylig brukte
+legemidler huskes i nettleseren på maskinen (ingen pasientdata).
+
 Under tidslinjen kommer vurderingen som fargede bokser (prøvetidspunkt,
 referanseområde, dose, toksisitet, steady state og eventuelt metabolitt/morstoff).
 Grønn betyr «i tråd med forventet», gul at noe bør vurderes, rød toksisk område
